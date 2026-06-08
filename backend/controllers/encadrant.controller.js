@@ -52,6 +52,76 @@ const mesEtudiants = async (req, res) => {
   }
 }
 
+// GET /api/encadrant/tous-etudiants — liste tous les étudiants actifs (avec mémoire) pour auto-assignation
+const tousEtudiants = async (req, res) => {
+  try {
+    const { search } = req.query
+    const where = { role: 'etudiant', is_active: true }
+    if (search) {
+      where[Op.or] = [
+        { nom:   { [Op.like]: `%${search}%` } },
+        { prenom:{ [Op.like]: `%${search}%` } },
+        { numero_etudiant: { [Op.like]: `%${search}%` } },
+      ]
+    }
+    const etudiants = await User.findAll({
+      where,
+      attributes: { exclude: ['mot_de_passe'] },
+      include: [
+        { model: Ecole,       as: 'ecoleInfo',       attributes: ['id','nom','sigle'] },
+        { model: Filiere,     as: 'filiereInfo',     attributes: ['id','nom'] },
+        { model: Memoire,     as: 'memoire',         required: false },
+        { model: Assignation, as: 'assignation',     required: false,
+          include: [{ model: User, as: 'encadrant', attributes: ['id','nom','prenom'] }],
+        },
+      ],
+      order: [['nom','ASC']],
+    })
+    return res.status(200).json({ success: true, data: etudiants })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({ success: false, message: 'Erreur serveur.' })
+  }
+}
+
+// POST /api/encadrant/s-assigner/:etudiant_id — l'encadrant s'assigne lui-même à un étudiant
+const sAssigner = async (req, res) => {
+  try {
+    const { etudiant_id } = req.params
+    // Vérifier que l'étudiant existe et est bien un étudiant
+    const etudiant = await User.findOne({ where: { id: etudiant_id, role: 'etudiant' } })
+    if (!etudiant) return res.status(404).json({ success: false, message: 'Étudiant introuvable.' })
+    // Vérifier pas déjà assigné
+    const existante = await Assignation.findOne({ where: { etudiant_id, statut: 'active' } })
+    if (existante) return res.status(409).json({ success: false, message: 'Cet étudiant a déjà un encadrant.' })
+    const ass = await Assignation.create({
+      etudiant_id,
+      encadrant_id: req.user.id,
+      rp_id: null,
+      statut: 'active',
+    })
+    return res.status(201).json({ success: true, message: 'Vous êtes maintenant encadrant de cet étudiant.', data: ass })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({ success: false, message: 'Erreur serveur.' })
+  }
+}
+
+// DELETE /api/encadrant/s-desassigner/:etudiant_id — se retirer
+const seDesassigner = async (req, res) => {
+  try {
+    const ass = await Assignation.findOne({
+      where: { etudiant_id: req.params.etudiant_id, encadrant_id: req.user.id, statut: 'active' },
+    })
+    if (!ass) return res.status(404).json({ success: false, message: 'Assignation introuvable.' })
+    ass.statut = 'annulee'
+    await ass.save()
+    return res.status(200).json({ success: true, message: 'Vous vous êtes retiré de cet étudiant.' })
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Erreur serveur.' })
+  }
+}
+
 // PATCH /api/encadrant/memoires/:etudiant_id/aptitude
 const deciderAptitude = async (req, res) => {
   try {
@@ -75,4 +145,4 @@ const deciderAptitude = async (req, res) => {
   }
 }
 
-module.exports = { statsEncadrant, mesEtudiants, deciderAptitude }
+module.exports = { statsEncadrant, mesEtudiants, tousEtudiants, sAssigner, seDesassigner, deciderAptitude }

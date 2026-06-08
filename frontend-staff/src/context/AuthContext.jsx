@@ -2,11 +2,10 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import api from '../api/axios'
 
 const AuthContext = createContext(null)
-
-const ROLES_AUTORISES = ['encadrant', 'responsable_pedagogique']
+const ROLES = ['encadrant', 'responsable_pedagogique']
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
+  const [user, setUser]     = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -22,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   const connexion = async (email, mot_de_passe) => {
     const res = await api.post('/auth/connexion', { email, mot_de_passe })
     const { token, user: u } = res.data
-    if (!ROLES_AUTORISES.includes(u.role)) throw new Error('Ce portail est réservé au personnel universitaire.')
+    if (!ROLES.includes(u.role)) throw new Error('Ce portail est réservé au personnel universitaire.')
     localStorage.setItem('staff_token', token)
     localStorage.setItem('staff_user', JSON.stringify(u))
     setUser(u)
@@ -38,6 +37,15 @@ export const AuthProvider = ({ children }) => {
     return u
   }
 
+  const mettreAJourProfil = async (data) => {
+    const res = await api.patch('/profil/moi', data)
+    const u = res.data.data
+    const merged = { ...user, ...u }
+    localStorage.setItem('staff_user', JSON.stringify(merged))
+    setUser(merged)
+    return merged
+  }
+
   const deconnexion = () => {
     localStorage.removeItem('staff_token')
     localStorage.removeItem('staff_user')
@@ -45,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, connexion, inscription, deconnexion }}>
+    <AuthContext.Provider value={{ user, loading, connexion, inscription, deconnexion, mettreAJourProfil }}>
       {children}
     </AuthContext.Provider>
   )
