@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar'
 import DashboardStats from './DashboardStats'
 import GestionUtilisateurs from './GestionUtilisateurs'
 import GestionEcoles from './GestionEcoles'
+import GestionStructure from './GestionStructure'
 import { useAuth } from '../context/AuthContext'
 
 const TITLES = {
@@ -12,6 +13,7 @@ const TITLES = {
   responsables: 'Responsables Pédagogiques',
   tous:         'Tous les comptes',
   ecoles:       'Établissements',
+  structure:    'Structure académique',
 }
 
 export default function Dashboard() {
@@ -26,6 +28,7 @@ export default function Dashboard() {
       case 'responsables': return <GestionUtilisateurs roleFilter="responsable_pedagogique" />
       case 'tous':         return <GestionUtilisateurs roleFilter={null} />
       case 'ecoles':       return <GestionEcoles />
+      case 'structure':    return <GestionStructure />
       default:             return <DashboardStats />
     }
   }

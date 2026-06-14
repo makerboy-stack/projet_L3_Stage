@@ -152,4 +152,75 @@ const deconnexion = (req, res) => {
   return res.status(200).json({ success: true, message: 'Déconnexion réussie.' });
 };
 
-module.exports = { inscrireEtudiant, inscrirePersonnel, connexion, monProfil, deconnexion };
+// ─────────────────────────────────────────────────────────────
+// MOT DE PASSE OUBLIÉ — étape 1 : vérifier l'email
+// ─────────────────────────────────────────────────────────────
+const demanderResetMotDePasse = async (req, res) => {
+  try {
+    const { email } = req.body
+    if (!email) return res.status(400).json({ success: false, message: 'Email obligatoire.' })
+
+    const user = await User.findOne({ where: { email } })
+    // On répond toujours "ok" pour ne pas révéler si l'email existe
+    if (!user) {
+      return res.status(200).json({ success: true, message: 'Si cet email existe, un code a été généré.' })
+    }
+
+    // Générer un code à 6 chiffres valable 15 minutes
+    const code = Math.floor(100000 + Math.random() * 900000).toString()
+    const expiration = new Date(Date.now() + 15 * 60 * 1000)
+
+    user.reset_code        = code
+    user.reset_code_expiry = expiration
+    await user.save()
+
+    // En production → envoyer par email. Ici on le retourne pour le dev
+    console.log(`🔑 Code reset pour ${email}: ${code}`)
+
+    return res.status(200).json({
+      success: true,
+      message: 'Code de réinitialisation généré.',
+      // En production : ne pas retourner le code ! Envoyer par email.
+      // Pour le dev/démo, on le retourne pour pouvoir tester :
+      code_dev: process.env.NODE_ENV === 'production' ? undefined : code,
+    })
+  } catch (error) {
+    console.error('demanderResetMotDePasse:', error)
+    return res.status(500).json({ success: false, message: 'Erreur serveur.' })
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// MOT DE PASSE OUBLIÉ — étape 2 : vérifier le code + nouveau mdp
+// ─────────────────────────────────────────────────────────────
+const reinitialiserMotDePasse = async (req, res) => {
+  try {
+    const { email, code, nouveau_mot_de_passe } = req.body
+    if (!email || !code || !nouveau_mot_de_passe)
+      return res.status(400).json({ success: false, message: 'Email, code et nouveau mot de passe obligatoires.' })
+    if (nouveau_mot_de_passe.length < 6)
+      return res.status(400).json({ success: false, message: 'Le mot de passe doit contenir au moins 6 caractères.' })
+
+    const user = await User.findOne({ where: { email } })
+    if (!user || !user.reset_code)
+      return res.status(400).json({ success: false, message: 'Code invalide ou expiré.' })
+
+    if (user.reset_code !== code)
+      return res.status(400).json({ success: false, message: 'Code incorrect.' })
+
+    if (new Date() > new Date(user.reset_code_expiry))
+      return res.status(400).json({ success: false, message: 'Le code a expiré. Faites une nouvelle demande.' })
+
+    user.mot_de_passe      = nouveau_mot_de_passe // bcrypt dans le hook beforeUpdate
+    user.reset_code        = null
+    user.reset_code_expiry = null
+    await user.save()
+
+    return res.status(200).json({ success: true, message: 'Mot de passe réinitialisé avec succès.' })
+  } catch (error) {
+    console.error('reinitialiserMotDePasse:', error)
+    return res.status(500).json({ success: false, message: 'Erreur serveur.' })
+  }
+}
+
+module.exports = { inscrireEtudiant, inscrirePersonnel, connexion, monProfil, deconnexion, demanderResetMotDePasse, reinitialiserMotDePasse };

@@ -6,6 +6,7 @@ const Filiere     = require('./Filiere')
 const Assignation = require('./Assignation')
 const Stage       = require('./Stage')
 const Memoire     = require('./Memoire')
+const Message     = require('./Message')
 
 // ── Ecole → Departement ──────────────────────────────────────
 Ecole.hasMany(Departement,   { foreignKey: 'ecole_id',       as: 'departements' })
@@ -42,4 +43,10 @@ User.hasOne(Stage,     { foreignKey: 'etudiant_id', as: 'stage' })
 Memoire.belongsTo(User, { foreignKey: 'etudiant_id', as: 'etudiant' })
 User.hasOne(Memoire,    { foreignKey: 'etudiant_id', as: 'memoire' })
 
-module.exports = { sequelize, User, Ecole, Departement, Filiere, Assignation, Stage, Memoire }
+// ── Message ──────────────────────────────────────────────────
+Message.belongsTo(User, { foreignKey: 'expediteur_id',   as: 'expediteur' })
+Message.belongsTo(User, { foreignKey: 'destinataire_id', as: 'destinataire' })
+User.hasMany(Message,   { foreignKey: 'expediteur_id',   as: 'messagesEnvoyes' })
+User.hasMany(Message,   { foreignKey: 'destinataire_id', as: 'messagesRecus' })
+
+module.exports = { sequelize, User, Ecole, Departement, Filiere, Assignation, Stage, Memoire, Message }

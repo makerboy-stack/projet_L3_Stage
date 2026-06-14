@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -67,6 +67,11 @@ export default function Connexion() {
             {loading ? 'Connexion...' : 'Accéder au panneau admin'}
           </button>
         </form>
+        <div className="auth-footer" style={{ marginTop: 16 }}>
+          <Link to="/mot-de-passe-oublie" style={{ color: 'var(--gray-400)', fontSize: '0.82rem' }}>
+            Mot de passe oublié ?
+          </Link>
+        </div>
       </div>
     </div>
   )

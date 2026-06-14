@@ -114,8 +114,8 @@ const seDesassigner = async (req, res) => {
       where: { etudiant_id: req.params.etudiant_id, encadrant_id: req.user.id, statut: 'active' },
     })
     if (!ass) return res.status(404).json({ success: false, message: 'Assignation introuvable.' })
-    ass.statut = 'annulee'
-    await ass.save()
+    // On supprime l'assignation (et non juste annuler) pour que l'étudiant n'ait plus d'encadrant
+    await ass.destroy()
     return res.status(200).json({ success: true, message: 'Vous vous êtes retiré de cet étudiant.' })
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Erreur serveur.' })

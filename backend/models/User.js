@@ -32,6 +32,9 @@ const User = sequelize.define('User', {
   telephone:       { type: DataTypes.STRING(20), allowNull: true },
   profil_complet:  { type: DataTypes.BOOLEAN, defaultValue: false },
   is_active:       { type: DataTypes.BOOLEAN, defaultValue: true },
+  // Réinitialisation du mot de passe
+  reset_code:        { type: DataTypes.STRING(6), allowNull: true },
+  reset_code_expiry: { type: DataTypes.DATE, allowNull: true },
 }, {
   tableName: 'users',
   timestamps: true,

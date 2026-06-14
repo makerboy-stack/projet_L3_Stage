@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import {
   LogOut, Users, BookOpen, CheckCircle, XCircle,
   ClipboardList, Save, Search, UserPlus, UserMinus,
-  RefreshCw, School, GraduationCap, AlertTriangle,
+  RefreshCw, GraduationCap, AlertTriangle,
+  MessageSquare, Send, ExternalLink, ArrowLeft,
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
@@ -13,6 +14,13 @@ import api from '../api/axios'
 const ROLE_LABELS = {
   encadrant: 'Encadrant',
   responsable_pedagogique: 'Responsable Pédagogique',
+}
+
+// Construit l'URL complète pour les fichiers uploadés sur le backend
+const getFileUrl = (url) => {
+  if (!url) return null
+  if (url.startsWith('http')) return url
+  return `http://localhost:5000${url}`
 }
 
 const aptitudeBadge = (a) => {
@@ -37,6 +45,111 @@ function Row({ label, children }) {
     <div className="info-row">
       <strong>{label}</strong>
       <span>{children ?? '—'}</span>
+    </div>
+  )
+}
+
+/* ══════════════════════════════════════════
+   CONVERSATION ENCADRANT ↔ ÉTUDIANT
+══════════════════════════════════════════ */
+function ConversationEncadrant({ etudiant, onBack }) {
+  const [messages, setMessages] = useState([])
+  const [texte,    setTexte]    = useState('')
+  const [loading,  setLoading]  = useState(false)
+  const [sending,  setSending]  = useState(false)
+  const bottomRef = useRef(null)
+
+  const charger = async () => {
+    setLoading(true)
+    try {
+      const r = await api.get(`/messages/${etudiant.id}`)
+      setMessages(r.data.data || [])
+    } catch { /* silencieux */ }
+    finally { setLoading(false) }
+  }
+
+  useEffect(() => { charger() }, [etudiant.id])
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
+
+  const envoyer = async (e) => {
+    e.preventDefault()
+    if (!texte.trim()) return
+    setSending(true)
+    try {
+      await api.post(`/messages/${etudiant.id}`, { contenu: texte.trim() })
+      setTexte('')
+      charger()
+    } catch { toast.error('Erreur.') }
+    finally { setSending(false) }
+  }
+
+  return (
+    <div className="section-box" style={{ padding: 0 }}>
+      {/* Header */}
+      <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--gray-200)', display: 'flex', alignItems: 'center', gap: 12 }}>
+        <button className="btn btn-ghost btn-sm" onClick={onBack} style={{ padding: '6px 10px' }}>
+          <ArrowLeft size={16} />Retour
+        </button>
+        <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#f5f3ff', color: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.85rem' }}>
+          {etudiant.prenom?.[0]}{etudiant.nom?.[0]}
+        </div>
+        <div>
+          <div style={{ fontWeight: 700, color: 'var(--gray-800)' }}>{etudiant.prenom} {etudiant.nom}</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--gray-400)' }}>
+            {etudiant.filiereInfo?.nom ?? '—'} · {etudiant.niveau ?? '—'}
+          </div>
+        </div>
+        <button className="btn btn-ghost btn-sm" style={{ marginLeft: 'auto' }} onClick={charger}>
+          <RefreshCw size={14} />
+        </button>
+      </div>
+
+      {/* Messages */}
+      <div style={{ height: 360, overflowY: 'auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {loading ? (
+          <div style={{ textAlign: 'center', margin: 'auto' }}>
+            <div className="spinner" style={{ borderColor: '#7c3aed30', borderTopColor: '#7c3aed', width: 28, height: 28, margin: '0 auto' }} />
+          </div>
+        ) : messages.length === 0 ? (
+          <div style={{ textAlign: 'center', color: 'var(--gray-400)', margin: 'auto' }}>
+            <p style={{ fontSize: '0.875rem' }}>Aucun message. Commencez la conversation !</p>
+          </div>
+        ) : messages.map(m => {
+          const estMoi = m.expediteur_id !== etudiant.id
+          return (
+            <div key={m.id} style={{ display: 'flex', justifyContent: estMoi ? 'flex-end' : 'flex-start' }}>
+              <div style={{
+                maxWidth: '70%', padding: '10px 14px',
+                borderRadius: estMoi ? '14px 14px 0 14px' : '14px 14px 14px 0',
+                background: estMoi ? 'var(--primary)' : 'var(--gray-100)',
+                color: estMoi ? 'white' : 'var(--gray-800)',
+                fontSize: '0.875rem', lineHeight: 1.5,
+              }}>
+                <p>{m.contenu}</p>
+                <p style={{ fontSize: '0.7rem', opacity: 0.65, marginTop: 4, textAlign: estMoi ? 'right' : 'left' }}>
+                  {new Date(m.created_at).toLocaleString('fr-FR', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })}
+                </p>
+              </div>
+            </div>
+          )
+        })}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* Input */}
+      <form onSubmit={envoyer} style={{ padding: '12px 20px', borderTop: '1px solid var(--gray-200)', display: 'flex', gap: 10 }}>
+        <input
+          value={texte}
+          onChange={e => setTexte(e.target.value)}
+          placeholder={`Message à ${etudiant.prenom}...`}
+          style={{ flex: 1, padding: '9px 14px', border: '1.5px solid var(--gray-200)', borderRadius: 8, outline: 'none', fontSize: '0.875rem' }}
+          onFocus={e => e.target.style.borderColor = 'var(--primary)'}
+          onBlur={e => e.target.style.borderColor = 'var(--gray-200)'}
+        />
+        <button type="submit" disabled={sending || !texte.trim()} className="btn-save" style={{ padding: '9px 16px', borderRadius: 8, flexShrink: 0 }}>
+          <Send size={16} />
+        </button>
+      </form>
     </div>
   )
 }
@@ -89,7 +202,6 @@ function EncProfil({ user, onSaved }) {
           ? (ecoles.find(e => e.id === user.ecole_id)?.nom ?? `École #${user.ecole_id}`)
           : '—'}
       </Row>
-
       <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--gray-200)' }}>
         <h3 style={{ marginBottom: 16 }}>Compléter mon profil</h3>
         <form onSubmit={submit} className="form-inline">
@@ -160,9 +272,10 @@ function EncProfil({ user, onSaved }) {
 function EncMesEtudiants() {
   const [etudiants, setEtudiants] = useState([])
   const [loading,   setLoading]   = useState(true)
-  const [modal,     setModal]     = useState(null) // { etudiant, mode: 'aptitude' }
+  const [modal,     setModal]     = useState(null)
   const [aptForm,   setAptForm]   = useState({ aptitude: 'apte', motif_refus: '', commentaire: '' })
   const [saving,    setSaving]    = useState(false)
+  const [msgEtu,    setMsgEtu]    = useState(null) // étudiant avec qui on échange
 
   const load = useCallback(() => {
     setLoading(true)
@@ -185,7 +298,7 @@ function EncMesEtudiants() {
   }
 
   const handleDesassigner = async (etudiant_id) => {
-    if (!confirm('Vous désassigner de cet étudiant ?')) return
+    if (!confirm('Vous désassigner de cet étudiant ? Il n\'aura plus d\'encadrant.')) return
     try {
       await api.delete(`/encadrant/s-desassigner/${etudiant_id}`)
       toast.success('Vous vous êtes retiré.')
@@ -193,11 +306,9 @@ function EncMesEtudiants() {
     } catch (err) { toast.error(err.response?.data?.message || 'Erreur.') }
   }
 
-  if (loading) return (
-    <div style={{ textAlign: 'center', padding: 40 }}>
-      <div className="spinner" style={{ borderColor: '#7c3aed30', borderTopColor: '#7c3aed', width: 32, height: 32, margin: '0 auto' }} />
-    </div>
-  )
+  if (loading) return <div style={{ textAlign:'center', padding:40 }}><div className="spinner" style={{ borderColor:'#7c3aed30', borderTopColor:'#7c3aed', width:32, height:32, margin:'0 auto' }} /></div>
+
+  if (msgEtu) return <ConversationEncadrant etudiant={msgEtu} onBack={() => setMsgEtu(null)} />
 
   return (
     <div>
@@ -206,7 +317,14 @@ function EncMesEtudiants() {
         <div className="modal-overlay" onClick={() => setModal(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <h3>Décision pour {modal.etudiant.prenom} {modal.etudiant.nom}</h3>
-            <p>Déclarez si cet étudiant est apte à soutenir son mémoire.</p>
+            <p>
+              {modal.etudiant.memoire?.fichier_url && (
+                <a href={getFileUrl(modal.etudiant.memoire.fichier_url)} target="_blank" rel="noreferrer"
+                  style={{ color:'#2563eb', display:'inline-flex', alignItems:'center', gap:6, marginBottom:12 }}>
+                  <ExternalLink size={14} />Consulter le mémoire
+                </a>
+              )}
+            </p>
             <form onSubmit={handleAptitude} className="form-inline">
               <div>
                 <label>Décision *</label>
@@ -218,26 +336,20 @@ function EncMesEtudiants() {
               {aptForm.aptitude === 'non_apte' && (
                 <div>
                   <label>Motif du refus</label>
-                  <input
-                    value={aptForm.motif_refus}
-                    onChange={e => setAptForm(f => ({ ...f, motif_refus: e.target.value }))}
-                    placeholder="Raison du refus..."
-                  />
+                  <input value={aptForm.motif_refus} onChange={e => setAptForm(f => ({ ...f, motif_refus: e.target.value }))} placeholder="Raison du refus..." />
                 </div>
               )}
               <div>
-                <label>Commentaire (optionnel)</label>
-                <textarea
-                  rows={3}
-                  value={aptForm.commentaire}
+                <label>Commentaire pour l'étudiant</label>
+                <textarea rows={3} value={aptForm.commentaire}
                   onChange={e => setAptForm(f => ({ ...f, commentaire: e.target.value }))}
-                  placeholder="Remarques pour l'étudiant..."
-                  style={{ padding: '9px 12px', border: '1.5px solid var(--gray-200)', borderRadius: 8, width: '100%', fontFamily: 'inherit', resize: 'vertical' }}
+                  placeholder="Remarques, conseils..."
+                  style={{ padding:'9px 12px', border:'1.5px solid var(--gray-200)', borderRadius:8, width:'100%', fontFamily:'inherit', resize:'vertical' }}
                 />
               </div>
-              <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+              <div style={{ display:'flex', gap:10, justifyContent:'flex-end' }}>
                 <button type="button" className="btn btn-ghost btn-sm" onClick={() => setModal(null)}>Annuler</button>
-                <button type="submit" className="btn-save btn-sm" disabled={saving} style={{ borderRadius: 6, padding: '6px 14px' }}>
+                <button type="submit" className="btn-save" style={{ borderRadius:6, padding:'6px 14px' }} disabled={saving}>
                   {saving ? 'Envoi...' : 'Confirmer'}
                 </button>
               </div>
@@ -246,65 +358,56 @@ function EncMesEtudiants() {
         </div>
       )}
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <p style={{ color: 'var(--gray-500)', fontSize: '0.875rem' }}>{etudiants.length} étudiant(s) sous votre supervision</p>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
+        <p style={{ color:'var(--gray-500)', fontSize:'0.875rem' }}>{etudiants.length} étudiant(s) sous votre supervision</p>
         <button className="btn btn-ghost btn-sm" onClick={load}><RefreshCw size={14} />Actualiser</button>
       </div>
 
       {etudiants.length === 0 ? (
-        <div className="section-box" style={{ textAlign: 'center', color: 'var(--gray-400)', padding: 48 }}>
-          <Users size={40} style={{ marginBottom: 12, opacity: 0.4 }} />
+        <div className="section-box" style={{ textAlign:'center', color:'var(--gray-400)', padding:48 }}>
+          <Users size={40} style={{ marginBottom:12, opacity:0.4 }} />
           <p>Vous n'avez pas encore d'étudiant assigné.</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gap: 12 }}>
+        <div style={{ display:'grid', gap:12 }}>
           {etudiants.map(e => (
-            <div key={e.id} className="student-card">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                {/* Avatar */}
-                <div style={{ width: 42, height: 42, borderRadius: '50%', background: '#f5f3ff', color: '#7c3aed', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.9rem', flexShrink: 0 }}>
+            <div key={e.id} className="student-card" style={{ flexWrap:'wrap' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:12, flex:1, minWidth:200 }}>
+                <div style={{ width:42, height:42, borderRadius:'50%', background:'#f5f3ff', color:'#7c3aed', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, fontSize:'0.9rem', flexShrink:0 }}>
                   {e.prenom?.[0]}{e.nom?.[0]}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 600, color: 'var(--gray-800)' }}>{e.prenom} {e.nom}</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--gray-400)' }}>
-                    {e.filiereInfo?.nom ?? '—'} · {e.niveau ?? '—'}
-                    {e.ecoleInfo && ` · ${e.ecoleInfo.sigle ?? e.ecoleInfo.nom}`}
+                  <div style={{ fontWeight:600, color:'var(--gray-800)' }}>{e.prenom} {e.nom}</div>
+                  <div style={{ fontSize:'0.78rem', color:'var(--gray-400)' }}>
+                    {e.ecoleInfo?.nom ?? '—'} · {e.filiereInfo?.nom ?? '—'} · {e.niveau ?? '—'}
                   </div>
                   {e.memoire?.titre && (
-                    <div style={{ fontSize: '0.8rem', color: 'var(--gray-600)', marginTop: 4, fontStyle: 'italic' }}>
-                      📄 {e.memoire.titre}
-                    </div>
+                    <div style={{ fontSize:'0.8rem', color:'var(--gray-600)', marginTop:4, fontStyle:'italic' }}>📄 {e.memoire.titre}</div>
+                  )}
+                  {e.memoire?.fichier_url && (
+                    <a href={getFileUrl(e.memoire.fichier_url)} target="_blank" rel="noreferrer"
+                      style={{ fontSize:'0.75rem', color:'#2563eb', display:'inline-flex', alignItems:'center', gap:4, marginTop:2 }}>
+                      <ExternalLink size={12} />Consulter le document
+                    </a>
                   )}
                 </div>
               </div>
 
-              {/* Statuts */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
-                {e.stage?.a_stage
-                  ? <span className="badge-status badge-blue">Stage : {e.stage.entreprise || 'Oui'}</span>
-                  : <span className="badge-status badge-gray">Pas de stage</span>
-                }
+              <div style={{ display:'flex', flexDirection:'column', gap:5, alignItems:'flex-end' }}>
+                {e.stage?.a_stage ? <span className="badge-status badge-blue">Stage : {e.stage.entreprise||'Oui'}</span> : <span className="badge-status badge-gray">Pas de stage</span>}
                 {e.memoire ? statutMemBadge(e.memoire.statut) : <span className="badge-status badge-gray">Pas de mémoire</span>}
                 {e.memoire && aptitudeBadge(e.memoire.aptitude)}
               </div>
 
-              {/* Actions */}
-              <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                <button
-                  className="btn-save"
-                  style={{ padding: '7px 14px', fontSize: '0.8rem', borderRadius: 7, background: '#7c3aed' }}
-                  onClick={() => { setAptForm({ aptitude: e.memoire?.aptitude ?? 'apte', motif_refus: e.memoire?.motif_refus ?? '', commentaire: '' }); setModal({ etudiant: e }) }}
-                >
-                  <CheckCircle size={14} />
-                  Aptitude
+              <div style={{ display:'flex', gap:8, flexShrink:0 }}>
+                <button className="btn btn-ghost btn-sm" title="Envoyer un message" onClick={() => setMsgEtu(e)} style={{ color:'#2563eb', borderColor:'#2563eb' }}>
+                  <MessageSquare size={14} />
                 </button>
-                <button
-                  className="btn btn-ghost btn-sm"
-                  title="Se désassigner"
-                  onClick={() => handleDesassigner(e.id)}
-                  style={{ color: 'var(--danger)', borderColor: 'var(--danger)' }}
-                >
+                <button className="btn-save" style={{ padding:'7px 12px', fontSize:'0.8rem', borderRadius:7, background:'#7c3aed' }}
+                  onClick={() => { setAptForm({ aptitude: e.memoire?.aptitude ?? 'apte', motif_refus: e.memoire?.motif_refus??'', commentaire:'' }); setModal({ etudiant: e }) }}>
+                  <CheckCircle size={14} />Aptitude
+                </button>
+                <button className="btn btn-ghost btn-sm" title="Se désassigner" onClick={() => handleDesassigner(e.id)} style={{ color:'var(--danger)', borderColor:'var(--danger)' }}>
                   <UserMinus size={14} />
                 </button>
               </div>
@@ -427,6 +530,257 @@ function EncTousEtudiants() {
 }
 
 /* ══════════════════════════════════════════
+   ENCADRANT — Onglet Mémoires étudiants
+══════════════════════════════════════════ */
+function EncMemoires() {
+  const [etudiants, setEtudiants] = useState([])
+  const [loading,   setLoading]   = useState(true)
+  const [selected,  setSelected]  = useState(null) // étudiant sélectionné
+  const [aptForm,   setAptForm]   = useState({ aptitude:'apte', motif_refus:'', commentaire:'' })
+  const [saving,    setSaving]    = useState(false)
+  const [showForm,  setShowForm]  = useState(false)
+
+  const load = useCallback(() => {
+    setLoading(true)
+    api.get('/encadrant/mes-etudiants')
+      .then(r => setEtudiants(r.data.data || []))
+      .catch(() => toast.error('Erreur de chargement.'))
+      .finally(() => setLoading(false))
+  }, [])
+
+  useEffect(load, [load])
+
+  const handleAptitude = async (e) => {
+    e.preventDefault(); setSaving(true)
+    try {
+      await api.patch(`/encadrant/memoires/${selected.id}/aptitude`, aptForm)
+      toast.success(`Étudiant déclaré ${aptForm.aptitude === 'apte' ? 'apte ✓' : 'non apte ✗'}.`)
+      setShowForm(false)
+      load()
+      // Met à jour l'étudiant sélectionné
+      const r = await api.get('/encadrant/mes-etudiants')
+      const updated = (r.data.data || []).find(e => e.id === selected.id)
+      if (updated) setSelected(updated)
+    } catch { toast.error('Erreur.') }
+    finally { setSaving(false) }
+  }
+
+  if (loading) return <div style={{ textAlign:'center', padding:40 }}><div className="spinner" style={{ borderColor:'#7c3aed30', borderTopColor:'#7c3aed', width:32, height:32, margin:'0 auto' }} /></div>
+
+  // Vue détail d'un étudiant
+  if (selected) {
+    const mem = selected.memoire
+    const fileUrl = mem?.fichier_url
+      ? (mem.fichier_url.startsWith('http') ? mem.fichier_url : `http://localhost:5000${mem.fichier_url}`)
+      : null
+
+    return (
+      <div>
+        {/* Retour */}
+        <button onClick={() => { setSelected(null); setShowForm(false) }}
+          style={{ display:'flex', alignItems:'center', gap:8, background:'none', border:'1.5px solid var(--gray-200)', borderRadius:8, padding:'7px 14px', cursor:'pointer', color:'var(--gray-600)', fontSize:'0.875rem', marginBottom:20 }}>
+          <ArrowLeft size={15} />Retour à la liste
+        </button>
+
+        {/* Infos étudiant */}
+        <div className="section-box">
+          <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:16 }}>
+            <div style={{ width:48, height:48, borderRadius:'50%', background:'#f5f3ff', color:'#7c3aed', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:'1rem', flexShrink:0 }}>
+              {selected.prenom?.[0]}{selected.nom?.[0]}
+            </div>
+            <div>
+              <div style={{ fontWeight:700, fontSize:'1rem', color:'var(--gray-900)' }}>{selected.prenom} {selected.nom}</div>
+              <div style={{ fontSize:'0.78rem', color:'var(--gray-400)' }}>
+                {selected.ecoleInfo?.nom ?? '—'} · {selected.filiereInfo?.nom ?? '—'} · {selected.niveau ?? '—'}
+              </div>
+            </div>
+          </div>
+          <div className="info-row"><strong>Email</strong><span>{selected.email}</span></div>
+          <div className="info-row"><strong>N° Étudiant</strong><span>{selected.numero_etudiant ?? '—'}</span></div>
+          <div className="info-row"><strong>Téléphone</strong><span>{selected.telephone ?? '—'}</span></div>
+          {selected.stage?.a_stage && (
+            <>
+              <div className="info-row"><strong>Entreprise</strong><span>{selected.stage.entreprise ?? '—'}</span></div>
+              <div className="info-row"><strong>Sujet de stage</strong><span>{selected.stage.sujet ?? '—'}</span></div>
+            </>
+          )}
+        </div>
+
+        {/* Mémoire */}
+        <div className="section-box" style={{ marginTop:16 }}>
+          <h3>Mémoire soumis</h3>
+          {!mem || mem.statut === 'non_soumis' ? (
+            <p style={{ color:'var(--gray-400)', fontSize:'0.875rem' }}>L'étudiant n'a pas encore soumis de mémoire.</p>
+          ) : (
+            <>
+              <div className="info-row"><strong>Titre</strong><span style={{ fontStyle:'italic' }}>"{mem.titre}"</span></div>
+              <div className="info-row"><strong>Statut</strong>
+                <span>{{'non_soumis':'Non déposé','soumis':'Soumis','valide':'Validé','rejete':'Rejeté'}[mem.statut] ?? mem.statut}</span>
+              </div>
+              <div className="info-row"><strong>Déposé le</strong>
+                <span>{mem.date_depot ? new Date(mem.date_depot).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' }) : '—'}</span>
+              </div>
+              <div className="info-row"><strong>Type de dépôt</strong>
+                <span>{mem.type_depot === 'fichier' ? '📄 Fichier uploadé' : '🔗 Lien externe'}</span>
+              </div>
+
+              {/* Lien de consultation */}
+              {fileUrl && (
+                <div style={{ marginTop:16, padding:'14px 18px', background:'#eff6ff', border:'1px solid #bfdbfe', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'space-between', gap:12 }}>
+                  <div>
+                    <p style={{ fontWeight:600, color:'#1e40af', fontSize:'0.875rem' }}>📄 Document disponible</p>
+                    <p style={{ fontSize:'0.78rem', color:'#3b82f6', marginTop:2 }}>
+                      {mem.type_depot === 'fichier' ? 'Fichier PDF/Word uploadé' : 'Lien partagé par l\'étudiant'}
+                    </p>
+                  </div>
+                  <a href={fileUrl} target="_blank" rel="noreferrer"
+                    style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 16px', background:'#1d4ed8', color:'white', borderRadius:8, fontSize:'0.875rem', fontWeight:600, textDecoration:'none', flexShrink:0 }}>
+                    <ExternalLink size={15} />
+                    {mem.type_depot === 'fichier' ? 'Télécharger' : 'Ouvrir le lien'}
+                  </a>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Décision aptitude */}
+        <div className="section-box" style={{ marginTop:16 }}>
+          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16 }}>
+            <h3 style={{ marginBottom:0 }}>Décision d'aptitude à soutenir</h3>
+            {mem && mem.statut !== 'non_soumis' && !showForm && (
+              <button className="btn-save" style={{ padding:'7px 14px', fontSize:'0.82rem', borderRadius:7 }} onClick={() => { setAptForm({ aptitude: mem.aptitude ?? 'apte', motif_refus: mem.motif_refus ?? '', commentaire: mem.commentaire_encadrant ?? '' }); setShowForm(true) }}>
+                <CheckCircle size={14} />{mem.aptitude !== 'en_attente' ? 'Modifier la décision' : 'Rendre ma décision'}
+              </button>
+            )}
+          </div>
+
+          {/* Décision actuelle */}
+          <div className="info-row">
+            <strong>Décision</strong>
+            <span>{mem?.aptitude === 'apte'
+              ? <span className="badge-status badge-green">✓ Apte à soutenir</span>
+              : mem?.aptitude === 'non_apte'
+              ? <span className="badge-status badge-red">✗ Non apte</span>
+              : <span className="badge-status badge-gray">⏳ En attente</span>}
+            </span>
+          </div>
+          {mem?.date_decision && <div className="info-row"><strong>Date</strong><span>{new Date(mem.date_decision).toLocaleDateString('fr-FR')}</span></div>}
+          {mem?.motif_refus && <div className="info-row"><strong>Motif</strong><span>{mem.motif_refus}</span></div>}
+          {mem?.commentaire_encadrant && (
+            <div style={{ marginTop:12, background:'#f0f9ff', border:'1px solid #bae6fd', borderRadius:8, padding:'12px 16px' }}>
+              <p style={{ fontSize:'0.8rem', color:'#0369a1', fontWeight:600, marginBottom:4 }}>💬 Votre commentaire</p>
+              <p style={{ fontSize:'0.875rem', color:'#0c4a6e' }}>{mem.commentaire_encadrant}</p>
+            </div>
+          )}
+
+          {/* Formulaire de décision */}
+          {showForm && mem && mem.statut !== 'non_soumis' && (
+            <form onSubmit={handleAptitude} className="form-inline" style={{ marginTop:16, paddingTop:16, borderTop:'1px solid var(--gray-200)' }}>
+              <div>
+                <label>Décision *</label>
+                <select value={aptForm.aptitude} onChange={e => setAptForm(f => ({ ...f, aptitude: e.target.value }))}>
+                  <option value="apte">✓ Apte à soutenir</option>
+                  <option value="non_apte">✗ Non apte</option>
+                </select>
+              </div>
+              {aptForm.aptitude === 'non_apte' && (
+                <div>
+                  <label>Motif du refus</label>
+                  <input value={aptForm.motif_refus} onChange={e => setAptForm(f => ({ ...f, motif_refus: e.target.value }))} placeholder="Raison du refus..." />
+                </div>
+              )}
+              <div>
+                <label>Commentaire pour l'étudiant</label>
+                <textarea rows={3} value={aptForm.commentaire} onChange={e => setAptForm(f => ({ ...f, commentaire: e.target.value }))}
+                  placeholder="Remarques, conseils..."
+                  style={{ padding:'9px 12px', border:'1.5px solid var(--gray-200)', borderRadius:8, width:'100%', fontFamily:'inherit', resize:'vertical', outline:'none' }} />
+              </div>
+              <div style={{ display:'flex', gap:10 }}>
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setShowForm(false)}>Annuler</button>
+                <button type="submit" className="btn-save" style={{ borderRadius:6, padding:'7px 16px' }} disabled={saving}>
+                  {saving ? 'Envoi...' : 'Confirmer la décision'}
+                </button>
+              </div>
+            </form>
+          )}
+          {(!mem || mem.statut === 'non_soumis') && (
+            <p style={{ color:'var(--gray-400)', fontSize:'0.82rem', marginTop:8 }}>
+              La décision sera disponible une fois que l'étudiant aura soumis son mémoire.
+            </p>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Liste des étudiants avec leur état mémoire
+  return (
+    <div>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
+        <p style={{ color:'var(--gray-500)', fontSize:'0.875rem' }}>{etudiants.length} étudiant(s) sous votre supervision</p>
+        <button className="btn btn-ghost btn-sm" onClick={load}><RefreshCw size={14} />Actualiser</button>
+      </div>
+
+      {etudiants.length === 0 ? (
+        <div className="section-box" style={{ textAlign:'center', color:'var(--gray-400)', padding:48 }}>
+          <Users size={40} style={{ marginBottom:12, opacity:0.4 }} />
+          <p>Vous n'avez pas encore d'étudiant assigné.</p>
+        </div>
+      ) : (
+        <div style={{ display:'grid', gap:10 }}>
+          {etudiants.map(e => {
+            const mem = e.memoire
+            const aptitude = mem?.aptitude ?? 'en_attente'
+            return (
+              <div key={e.id}
+                onClick={() => { setSelected(e); setShowForm(false) }}
+                style={{ background:'white', border:'1px solid var(--gray-200)', borderRadius:10, padding:'16px 20px', cursor:'pointer', transition:'box-shadow 0.2s, border-color 0.2s' }}
+                onMouseEnter={el => { el.currentTarget.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)'; el.currentTarget.style.borderColor='var(--primary)' }}
+                onMouseLeave={el => { el.currentTarget.style.boxShadow='none'; el.currentTarget.style.borderColor='var(--gray-200)' }}
+              >
+                <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:12 }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+                    <div style={{ width:40, height:40, borderRadius:'50%', background:'#f5f3ff', color:'#7c3aed', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, flexShrink:0 }}>
+                      {e.prenom?.[0]}{e.nom?.[0]}
+                    </div>
+                    <div>
+                      <div style={{ fontWeight:600, color:'var(--gray-800)' }}>{e.prenom} {e.nom}</div>
+                      <div style={{ fontSize:'0.75rem', color:'var(--gray-400)' }}>
+                        {e.filiereInfo?.nom ?? '—'} · {e.niveau ?? '—'}
+                      </div>
+                      {mem?.titre && (
+                        <div style={{ fontSize:'0.78rem', color:'var(--gray-600)', marginTop:2, fontStyle:'italic' }}>
+                          📄 "{mem.titre}"
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div style={{ display:'flex', flexDirection:'column', gap:5, alignItems:'flex-end', flexShrink:0 }}>
+                    {!mem || mem.statut === 'non_soumis'
+                      ? <span className="badge-status badge-gray">Pas de mémoire</span>
+                      : mem.statut === 'soumis'
+                      ? <span className="badge-status badge-blue">📄 Mémoire soumis</span>
+                      : <span className="badge-status badge-green">✓ Déposé</span>
+                    }
+                    {aptitude === 'apte'     && <span className="badge-status badge-green">✓ Apte</span>}
+                    {aptitude === 'non_apte' && <span className="badge-status badge-red">✗ Non apte</span>}
+                    {aptitude === 'en_attente' && mem?.statut !== 'non_soumis' && (
+                      <span className="badge-status badge-orange" style={{ background:'#fff7ed', color:'#c2410c' }}>⚡ Décision attendue</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ══════════════════════════════════════════
    DASHBOARD ENCADRANT
 ══════════════════════════════════════════ */
 function DashboardEncadrant({ user }) {
@@ -447,6 +801,7 @@ function DashboardEncadrant({ user }) {
           { key: 'accueil',        label: '🏠 Accueil' },
           { key: 'profil',         label: '👤 Mon profil' },
           { key: 'mes-etudiants',  label: '👥 Mes étudiants' },
+          { key: 'memoires',       label: '📄 Mémoires' },
           { key: 'tous-etudiants', label: '🔍 Trouver des étudiants' },
         ].map(t => (
           <button
@@ -503,6 +858,7 @@ function DashboardEncadrant({ user }) {
 
       {onglet === 'profil'         && <EncProfil       user={user} onSaved={() => {}} />}
       {onglet === 'mes-etudiants'  && <EncMesEtudiants />}
+      {onglet === 'memoires'       && <EncMemoires />}
       {onglet === 'tous-etudiants' && <EncTousEtudiants />}
     </div>
   )

@@ -1,0 +1,430 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- ═══════════════════════════════════════════════
+         PAGE 1 : DIAGRAMME DE CAS D'UTILISATION
+         ═══════════════════════════════════════════════ -->
+    <mxCell id="page1" value="Cas d'utilisation" style="swimlane;" parent="0" vertex="1">
+      <mxGeometry x="0" y="0" width="1169" height="827" as="geometry"/>
+    </mxCell>
+
+    <!-- Titre -->
+    <mxCell id="titre_uc" value="Diagramme de Cas d'Utilisation&#xa;Système de Gestion des Stages &amp; Mémoires" style="text;html=1;align=center;fontStyle=1;fontSize=14;" vertex="1" parent="page1">
+      <mxGeometry x="300" y="10" width="569" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- RECTANGLE SYSTÈME -->
+    <mxCell id="sys_box" value="Système de Gestion des Stages &amp; Mémoires" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;fontSize=11;fontStyle=1;verticalAlign=top;spacingTop=5;" vertex="1" parent="page1">
+      <mxGeometry x="180" y="60" width="790" height="740" as="geometry"/>
+    </mxCell>
+
+    <!-- ══ ACTEURS (bonhommes UML) ══ -->
+    <!-- Étudiant -->
+    <mxCell id="act_etudiant" value="Étudiant" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="page1">
+      <mxGeometry x="30" y="180" width="50" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- Encadrant -->
+    <mxCell id="act_encadrant" value="Encadrant" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="page1">
+      <mxGeometry x="30" y="420" width="50" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- Responsable Pédagogique -->
+    <mxCell id="act_rp" value="Responsable&#xa;Pédagogique" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="page1">
+      <mxGeometry x="25" y="600" width="60" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- Administrateur -->
+    <mxCell id="act_admin" value="Administrateur" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="page1">
+      <mxGeometry x="1085" y="380" width="50" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- ══ CAS D'UTILISATION PARTAGÉS (haut) ══ -->
+    <mxCell id="uc_sinsc" value="S'inscrire" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="200" y="80" width="130" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_conn" value="Se connecter" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="380" y="80" width="130" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_reset" value="Réinitialiser mot&#xa;de passe" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="560" y="80" width="140" height="45" as="geometry"/>
+    </mxCell>
+
+    <!-- ══ CAS D'UTILISATION ÉTUDIANT ══ -->
+    <mxCell id="uc_profil" value="Compléter profil&#xa;académique" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="200" y="160" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_stage" value="Déclarer situation&#xa;de stage" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="390" y="160" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_memo" value="Soumettre mémoire&#xa;(fichier / lien)" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="580" y="160" width="155" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_modif" value="Modifier mémoire" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="200" y="235" width="145" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_suppr" value="Supprimer mémoire" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="390" y="235" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_apt" value="Consulter aptitude&#xa;et commentaire" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="580" y="235" width="155" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_msgetu" value="Envoyer message&#xa;à l'encadrant" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="390" y="310" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_timeline" value="Suivre progression&#xa;(timeline)" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="580" y="310" width="150" height="45" as="geometry"/>
+    </mxCell>
+
+    <!-- ══ CAS D'UTILISATION ENCADRANT ══ -->
+    <mxCell id="uc_listetu" value="Consulter liste&#xa;des étudiants" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="200" y="395" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_sassign" value="S'assigner comme&#xa;encadrant" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="390" y="395" width="155" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_desass" value="Se désassigner" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="590" y="395" width="140" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_consultmem" value="Consulter mémoire&#xa;étudiant" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="200" y="465" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_declapt" value="Déclarer aptitude&#xa;à soutenir" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="390" y="465" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_commentaire" value="Rédiger commentaire" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="590" y="465" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_msgenc" value="Envoyer message&#xa;à l'étudiant" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="390" y="535" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_profilenc" value="Compléter profil&#xa;(dept., grade)" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="590" y="535" width="150" height="45" as="geometry"/>
+    </mxCell>
+
+    <!-- ══ CAS D'UTILISATION RP ══ -->
+    <mxCell id="uc_stats" value="Consulter stats&#xa;globales" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="200" y="620" width="145" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_assignrp" value="Assigner encadrant&#xa;à étudiant" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="390" y="620" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_modifass" value="Modifier assignation" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="590" y="620" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_suppass" value="Supprimer assignation" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="390" y="690" width="155" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_sansenc" value="Voir étudiants sans&#xa;encadrant" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="590" y="690" width="150" height="45" as="geometry"/>
+    </mxCell>
+
+    <!-- ══ CAS D'UTILISATION ADMIN ══ -->
+    <mxCell id="uc_gerereco" value="Gérer établissements&#xa;(CRUD)" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="760" y="300" width="160" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_gererdep" value="Gérer départements&#xa;et filières" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="760" y="380" width="160" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_gerercpt" value="Gérer comptes&#xa;utilisateurs" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="760" y="460" width="160" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_activ" value="Activer / Désactiver&#xa;compte" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="760" y="540" width="160" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_suppcpt" value="Supprimer compte" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="760" y="620" width="160" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="uc_statsadm" value="Consulter statistiques" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="page1">
+      <mxGeometry x="760" y="700" width="160" height="45" as="geometry"/>
+    </mxCell>
+
+    <!-- ══ ASSOCIATIONS ÉTUDIANT ══ -->
+    <mxCell id="e_s1" edge="1" source="act_etudiant" target="uc_sinsc" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s2" edge="1" source="act_etudiant" target="uc_conn" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s3" edge="1" source="act_etudiant" target="uc_reset" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s4" edge="1" source="act_etudiant" target="uc_profil" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s5" edge="1" source="act_etudiant" target="uc_stage" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s6" edge="1" source="act_etudiant" target="uc_memo" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s7" edge="1" source="act_etudiant" target="uc_modif" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s8" edge="1" source="act_etudiant" target="uc_suppr" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s9" edge="1" source="act_etudiant" target="uc_apt" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s10" edge="1" source="act_etudiant" target="uc_msgetu" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_s11" edge="1" source="act_etudiant" target="uc_timeline" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- include : Soumettre inclut Modifier (optionnel) -->
+    <mxCell id="ei1" value="&lt;&lt;extend&gt;&gt;" style="edgeStyle=none;dashed=1;html=1;" edge="1" source="uc_modif" target="uc_memo" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <!-- include : Déclarer aptitude inclut Rédiger commentaire -->
+    <mxCell id="ei2" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=none;dashed=1;html=1;" edge="1" source="uc_declapt" target="uc_commentaire" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <!-- include : Gérer comptes inclut Activer/Désactiver -->
+    <mxCell id="ei3" value="&lt;&lt;include&gt;&gt;" style="edgeStyle=none;dashed=1;html=1;" edge="1" source="uc_gerercpt" target="uc_activ" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <!-- extend : Gérer depts étend Gérer établissements -->
+    <mxCell id="ei4" value="&lt;&lt;extend&gt;&gt;" style="edgeStyle=none;dashed=1;html=1;" edge="1" source="uc_gererdep" target="uc_gerereco" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ══ ASSOCIATIONS ENCADRANT ══ -->
+    <mxCell id="e_enc1" edge="1" source="act_encadrant" target="uc_conn" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_enc2" edge="1" source="act_encadrant" target="uc_reset" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_enc3" edge="1" source="act_encadrant" target="uc_listetu" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_enc4" edge="1" source="act_encadrant" target="uc_sassign" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_enc5" edge="1" source="act_encadrant" target="uc_desass" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_enc6" edge="1" source="act_encadrant" target="uc_consultmem" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_enc7" edge="1" source="act_encadrant" target="uc_declapt" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_enc8" edge="1" source="act_encadrant" target="uc_msgenc" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_enc9" edge="1" source="act_encadrant" target="uc_profilenc" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ══ ASSOCIATIONS RP ══ -->
+    <mxCell id="e_rp1" edge="1" source="act_rp" target="uc_conn" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_rp2" edge="1" source="act_rp" target="uc_reset" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_rp3" edge="1" source="act_rp" target="uc_stats" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_rp4" edge="1" source="act_rp" target="uc_assignrp" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_rp5" edge="1" source="act_rp" target="uc_modifass" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_rp6" edge="1" source="act_rp" target="uc_suppass" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_rp7" edge="1" source="act_rp" target="uc_sansenc" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ══ ASSOCIATIONS ADMIN ══ -->
+    <mxCell id="e_adm1" edge="1" source="act_admin" target="uc_conn" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_adm2" edge="1" source="act_admin" target="uc_reset" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_adm3" edge="1" source="act_admin" target="uc_gerereco" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_adm4" edge="1" source="act_admin" target="uc_gererdep" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_adm5" edge="1" source="act_admin" target="uc_gerercpt" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_adm6" edge="1" source="act_admin" target="uc_suppcpt" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e_adm7" edge="1" source="act_admin" target="uc_statsadm" parent="page1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <!-- ═══════════════════════════════════════════════
+         PAGE 2 : DIAGRAMME DE CLASSES
+         ═══════════════════════════════════════════════ -->
+    <mxCell id="page2" value="Diagramme de Classes" style="swimlane;" parent="0" vertex="1">
+      <mxGeometry x="0" y="0" width="1400" height="900" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="titre_dc" value="Diagramme de Classes — Gestion des Stages &amp; Mémoires" style="text;html=1;align=center;fontStyle=1;fontSize=14;" vertex="1" parent="page2">
+      <mxGeometry x="400" y="10" width="600" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- Classe User -->
+    <mxCell id="cls_user" value="User" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="page2">
+      <mxGeometry x="30" y="50" width="260" height="360" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_user_attr" value="- id : INT {PK}&#xa;- nom : STRING&#xa;- prenom : STRING&#xa;- email : STRING {UNIQUE}&#xa;- mot_de_passe : STRING&#xa;- role : ENUM&#xa;  (etudiant|encadrant|rp|admin)&#xa;- ecole_id : INT {FK}&#xa;- departement_id : INT {FK}&#xa;- filiere_id : INT {FK}&#xa;- numero_etudiant : STRING&#xa;- niveau : STRING&#xa;- annee_universitaire : STRING&#xa;- grade : STRING&#xa;- specialite : STRING&#xa;- telephone : STRING&#xa;- profil_complet : BOOLEAN&#xa;- is_active : BOOLEAN&#xa;- reset_code : STRING&#xa;- reset_code_expiry : DATETIME" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_user">
+      <mxGeometry y="30" width="260" height="270" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_user_meth" value="+ verifierMotDePasse(mdp) : BOOL&#xa;+ toSafeJSON() : Object" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_user">
+      <mxGeometry y="300" width="260" height="60" as="geometry"/>
+    </mxCell>
+
+    <!-- Classe Ecole -->
+    <mxCell id="cls_ecole" value="Ecole" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="page2">
+      <mxGeometry x="340" y="50" width="220" height="200" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_ecole_attr" value="- id : INT {PK}&#xa;- nom : STRING {UNIQUE}&#xa;- sigle : STRING&#xa;- ville : STRING&#xa;- pays : STRING&#xa;- description : TEXT&#xa;- is_active : BOOLEAN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_ecole">
+      <mxGeometry y="30" width="220" height="170" as="geometry"/>
+    </mxCell>
+
+    <!-- Classe Departement -->
+    <mxCell id="cls_dept" value="Departement" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="page2">
+      <mxGeometry x="600" y="50" width="200" height="160" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_dept_attr" value="- id : INT {PK}&#xa;- ecole_id : INT {FK}&#xa;- nom : STRING&#xa;- code : STRING&#xa;- is_active : BOOLEAN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_dept">
+      <mxGeometry y="30" width="200" height="130" as="geometry"/>
+    </mxCell>
+
+    <!-- Classe Filiere -->
+    <mxCell id="cls_fil" value="Filiere" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="page2">
+      <mxGeometry x="840" y="50" width="200" height="170" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_fil_attr" value="- id : INT {PK}&#xa;- departement_id : INT {FK}&#xa;- nom : STRING&#xa;- code : STRING&#xa;- niveaux : TEXT (JSON)&#xa;- is_active : BOOLEAN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_fil">
+      <mxGeometry y="30" width="200" height="140" as="geometry"/>
+    </mxCell>
+
+    <!-- Classe Assignation -->
+    <mxCell id="cls_assign" value="Assignation" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="page2">
+      <mxGeometry x="30" y="460" width="220" height="180" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_assign_attr" value="- id : INT {PK}&#xa;- etudiant_id : INT {FK}&#xa;- encadrant_id : INT {FK}&#xa;- rp_id : INT {FK}&#xa;- annee_universitaire : STRING&#xa;- statut : ENUM&#xa;- note_rp : TEXT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_assign">
+      <mxGeometry y="30" width="220" height="150" as="geometry"/>
+    </mxCell>
+
+    <!-- Classe Stage -->
+    <mxCell id="cls_stage" value="Stage" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="page2">
+      <mxGeometry x="300" y="460" width="230" height="220" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_stage_attr" value="- id : INT {PK}&#xa;- etudiant_id : INT {FK}&#xa;- a_stage : BOOLEAN&#xa;- entreprise : STRING&#xa;- secteur : STRING&#xa;- sujet : TEXT&#xa;- lieu : STRING&#xa;- date_debut : DATE&#xa;- date_fin : DATE&#xa;- statut : ENUM&#xa;- encadrant_entreprise : STRING" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_stage">
+      <mxGeometry y="30" width="230" height="190" as="geometry"/>
+    </mxCell>
+
+    <!-- Classe Memoire -->
+    <mxCell id="cls_memo" value="Memoire" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="page2">
+      <mxGeometry x="580" y="460" width="240" height="240" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_memo_attr" value="- id : INT {PK}&#xa;- etudiant_id : INT {FK}&#xa;- titre : STRING&#xa;- fichier_url : STRING&#xa;- type_depot : ENUM(fichier|lien)&#xa;- date_depot : DATETIME&#xa;- statut : ENUM&#xa;- commentaire_encadrant : TEXT&#xa;- aptitude : ENUM&#xa;- motif_refus : TEXT&#xa;- date_decision : DATETIME" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_memo">
+      <mxGeometry y="30" width="240" height="210" as="geometry"/>
+    </mxCell>
+
+    <!-- Classe Message -->
+    <mxCell id="cls_msg" value="Message" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="page2">
+      <mxGeometry x="870" y="460" width="210" height="160" as="geometry"/>
+    </mxCell>
+    <mxCell id="cls_msg_attr" value="- id : INT {PK}&#xa;- expediteur_id : INT {FK}&#xa;- destinataire_id : INT {FK}&#xa;- contenu : TEXT&#xa;- lu : BOOLEAN" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;rotatable=0;" vertex="1" parent="cls_msg">
+      <mxGeometry y="30" width="210" height="130" as="geometry"/>
+    </mxCell>
+
+    <!-- RELATIONS CLASSES -->
+    <!-- User appartient à Ecole -->
+    <mxCell id="r1" value="appartient à" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;" edge="1" source="cls_user" target="cls_ecole" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User appartient à Departement -->
+    <mxCell id="r2" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;" edge="1" source="cls_user" target="cls_dept" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User appartient à Filiere -->
+    <mxCell id="r3" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;" edge="1" source="cls_user" target="cls_fil" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Ecole a des Departements -->
+    <mxCell id="r4" value="1     *" style="edgeStyle=orthogonalEdgeStyle;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.5;" edge="1" source="cls_ecole" target="cls_dept" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Departement a des Filieres -->
+    <mxCell id="r5" value="1     *" style="edgeStyle=orthogonalEdgeStyle;endArrow=ERmany;startArrow=ERone;" edge="1" source="cls_dept" target="cls_fil" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User a une Assignation -->
+    <mxCell id="r6" value="etudiant 1..1&#xa;assignation 0..1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="cls_user" target="cls_assign" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User a un Stage -->
+    <mxCell id="r7" value="1   0..1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="cls_user" target="cls_stage" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User a un Memoire -->
+    <mxCell id="r8" value="1   0..1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="cls_user" target="cls_memo" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User envoie Messages -->
+    <mxCell id="r9" value="expediteur 1   *" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="cls_user" target="cls_msg" parent="page2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════
+         PAGE 3 : SÉQUENCE — Inscription Étudiant
+         ═══════════════════════════════════════════════ -->
+    <mxCell id="page3" value="Séquence — Inscription" style="swimlane;" parent="0" vertex="1">
+      <mxGeometry x="0" y="0" width="1100" height="700" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="t3" value="Diagramme de Séquence : Inscription Étudiant" style="text;html=1;align=center;fontStyle=1;fontSize=14;" vertex="1" parent="page3">
+      <mxGeometry x="250" y="10" width="600" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- Lifeline headers -->
+    <mxCell id="lh1" value=":Étudiant" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;" vertex="1" parent="page3"><mxGeometry x="60" y="50" width="40" height="60" as="geometry"/></mxCell>
+    <mxCell id="lh2" value=":Page Inscription" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="page3"><mxGeometry x="190" y="55" width="130" height="40" as="geometry"/></mxCell>
+    <mxCell id="lh3" value=":API /auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="page3"><mxGeometry x="390" y="55" width="120" height="40" as="geometry"/></mxCell>
+    <mxCell id="lh4" value=":AuthController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="page3"><mxGeometry x="580" y="55" width="130" height="40" as="geometry"/></mxCell>
+    <mxCell id="lh5" value=":User (Model)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="page3"><mxGeometry x="780" y="55" width="120" height="40" as="geometry"/></mxCell>
+    <mxCell id="lh6" value=":MySQL" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#f5f5f5;" vertex="1" parent="page3"><mxGeometry x="970" y="45" width="60" height="60" as="geometry"/></mxCell>
+
+    <!-- Lifelines verticales -->
+    <mxCell id="ll1" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page3"><mxGeometry x="-0.05" relative="1" as="geometry"><mxPoint x="80" y="110" as="sourcePoint"/><mxPoint x="80" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="ll2" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="255" y="95" as="sourcePoint"/><mxPoint x="255" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="ll3" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="450" y="95" as="sourcePoint"/><mxPoint x="450" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="ll4" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="95" as="sourcePoint"/><mxPoint x="645" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="ll5" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="840" y="95" as="sourcePoint"/><mxPoint x="840" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="ll6" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="1000" y="105" as="sourcePoint"/><mxPoint x="1000" y="650" as="targetPoint"/></mxGeometry></mxCell>
+
+    <!-- Messages séquence inscription -->
+    <mxCell id="msg1" value="1: Saisir formulaire (nom, prénom, email, N° étudiant, école, mdp)" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="80" y="140" as="sourcePoint"/><mxPoint x="255" y="140" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg2" value="2: POST /api/auth/inscription/etudiant {FormData}" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="255" y="165" as="sourcePoint"/><mxPoint x="450" y="165" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg3" value="3: validerInscriptionEtudiant(req)" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="450" y="190" as="sourcePoint"/><mxPoint x="645" y="190" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg4" value="4: findOne({email}) — vérifier doublon" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="215" as="sourcePoint"/><mxPoint x="840" y="215" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg5" value="5: SELECT * FROM users WHERE email=?" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="840" y="240" as="sourcePoint"/><mxPoint x="1000" y="240" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg6" value="6: null (email disponible)" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="1000" y="265" as="sourcePoint"/><mxPoint x="840" y="265" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg7" value="7: User.create({données}) → bcrypt(mdp, 12)" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="295" as="sourcePoint"/><mxPoint x="840" y="295" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg8" value="8: INSERT INTO users VALUES (...)" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="840" y="320" as="sourcePoint"/><mxPoint x="1000" y="320" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg9" value="9: user {id, nom, email, role}" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="1000" y="345" as="sourcePoint"/><mxPoint x="645" y="345" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg10" value="10: genererToken(user.id) → JWT" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="375" as="sourcePoint"/><mxPoint x="645" y="375" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg11" value="11: 201 { success:true, token, user }" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="405" as="sourcePoint"/><mxPoint x="255" y="405" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="msg12" value="12: localStorage(token) → Redirect /dashboard" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page3"><mxGeometry relative="1" as="geometry"><mxPoint x="255" y="435" as="sourcePoint"/><mxPoint x="80" y="435" as="targetPoint"/></mxGeometry></mxCell>
+
+    <!-- ═══════════════════════════════════════════════
+         PAGE 4 : SÉQUENCE — Soumettre un Mémoire
+         ═══════════════════════════════════════════════ -->
+    <mxCell id="page4" value="Séquence — Soumettre Mémoire" style="swimlane;" parent="0" vertex="1">
+      <mxGeometry x="0" y="0" width="1200" height="700" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="t4" value="Diagramme de Séquence : Soumettre un Mémoire (upload fichier)" style="text;html=1;align=center;fontStyle=1;fontSize=14;" vertex="1" parent="page4">
+      <mxGeometry x="250" y="10" width="700" height="30" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="p4_lh1" value=":Étudiant" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;" vertex="1" parent="page4"><mxGeometry x="50" y="50" width="40" height="60" as="geometry"/></mxCell>
+    <mxCell id="p4_lh2" value=":Dashboard&#xa;Étudiant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="page4"><mxGeometry x="165" y="55" width="120" height="40" as="geometry"/></mxCell>
+    <mxCell id="p4_lh3" value=":API&#xa;(Express)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="page4"><mxGeometry x="360" y="55" width="110" height="40" as="geometry"/></mxCell>
+    <mxCell id="p4_lh4" value=":Middleware&#xa;(JWT+Multer)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="page4"><mxGeometry x="545" y="55" width="120" height="40" as="geometry"/></mxCell>
+    <mxCell id="p4_lh5" value=":StageController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="page4"><mxGeometry x="740" y="55" width="130" height="40" as="geometry"/></mxCell>
+    <mxCell id="p4_lh6" value=":Memoire&#xa;(Sequelize)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="page4"><mxGeometry x="940" y="55" width="120" height="40" as="geometry"/></mxCell>
+    <mxCell id="p4_lh7" value=":MySQL" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#f5f5f5;" vertex="1" parent="page4"><mxGeometry x="1120" y="45" width="60" height="60" as="geometry"/></mxCell>
+
+    <mxCell id="p4_ll1" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="70" y="110" as="sourcePoint"/><mxPoint x="70" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4_ll2" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="225" y="95" as="sourcePoint"/><mxPoint x="225" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4_ll3" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="415" y="95" as="sourcePoint"/><mxPoint x="415" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4_ll4" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="605" y="95" as="sourcePoint"/><mxPoint x="605" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4_ll5" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="805" y="95" as="sourcePoint"/><mxPoint x="805" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4_ll6" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="1000" y="95" as="sourcePoint"/><mxPoint x="1000" y="650" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4_ll7" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="1150" y="105" as="sourcePoint"/><mxPoint x="1150" y="650" as="targetPoint"/></mxGeometry></mxCell>
+
+    <mxCell id="p4m1" value="1: Saisir titre + sélectionner fichier PDF/Word" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="70" y="140" as="sourcePoint"/><mxPoint x="225" y="140" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m2" value="2: PATCH /api/stage/mon-memoire (FormData multipart)" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="225" y="165" as="sourcePoint"/><mxPoint x="415" y="165" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m3" value="3: verifierToken(JWT) + autoriserRoles('etudiant')" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="415" y="190" as="sourcePoint"/><mxPoint x="605" y="190" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m4" value="4: ✓ Token valide + multer.save(fichier) → /uploads/memoires/" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="605" y="215" as="sourcePoint"/><mxPoint x="415" y="215" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m5" value="5: soumettreMemoire(req, res)" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="415" y="245" as="sourcePoint"/><mxPoint x="805" y="245" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m6" value="6: findOne({etudiant_id}) — vérifier aptitude" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="805" y="275" as="sourcePoint"/><mxPoint x="1000" y="275" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m7" value="7: SELECT FROM memoires WHERE etudiant_id=?" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="1000" y="300" as="sourcePoint"/><mxPoint x="1150" y="300" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m8" value="8: résultat (null ou mémoire existant)" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="1150" y="325" as="sourcePoint"/><mxPoint x="805" y="325" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m9" value="9: aptitude = 'en_attente' → OK&#xa;   fichier_url = '/uploads/memoires/etudiant_X_ts.pdf'" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="805" y="360" as="sourcePoint"/><mxPoint x="805" y="360" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m10" value="10: save() / create() → statut = 'soumis'" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="1000" y="395" as="sourcePoint"/><mxPoint x="1150" y="395" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m11" value="11: { success:true, data: memoire }" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="805" y="430" as="sourcePoint"/><mxPoint x="415" y="430" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p4m12" value="12: Toast ✓ 'Mémoire soumis !' + recharger profil" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page4"><mxGeometry relative="1" as="geometry"><mxPoint x="225" y="460" as="sourcePoint"/><mxPoint x="70" y="460" as="targetPoint"/></mxGeometry></mxCell>
+
+    <!-- ═══════════════════════════════════════════════
+         PAGE 5 : SÉQUENCE — Déclarer Aptitude
+         ═══════════════════════════════════════════════ -->
+    <mxCell id="page5" value="Séquence — Déclarer Aptitude" style="swimlane;" parent="0" vertex="1">
+      <mxGeometry x="0" y="0" width="1100" height="650" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="t5" value="Diagramme de Séquence : Déclarer l'Aptitude à Soutenir (Encadrant)" style="text;html=1;align=center;fontStyle=1;fontSize=14;" vertex="1" parent="page5">
+      <mxGeometry x="200" y="10" width="700" height="30" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="p5_lh1" value=":Encadrant" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;" vertex="1" parent="page5"><mxGeometry x="50" y="50" width="40" height="60" as="geometry"/></mxCell>
+    <mxCell id="p5_lh2" value=":Dashboard&#xa;Staff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="page5"><mxGeometry x="170" y="55" width="120" height="40" as="geometry"/></mxCell>
+    <mxCell id="p5_lh3" value=":API&#xa;/encadrant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="page5"><mxGeometry x="370" y="55" width="120" height="40" as="geometry"/></mxCell>
+    <mxCell id="p5_lh4" value=":EncadrantController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="page5"><mxGeometry x="570" y="55" width="150" height="40" as="geometry"/></mxCell>
+    <mxCell id="p5_lh5" value=":Memoire" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="page5"><mxGeometry x="800" y="55" width="120" height="40" as="geometry"/></mxCell>
+    <mxCell id="p5_lh6" value=":MySQL" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#f5f5f5;" vertex="1" parent="page5"><mxGeometry x="990" y="45" width="60" height="60" as="geometry"/></mxCell>
+
+    <mxCell id="p5_ll1" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="70" y="110" as="sourcePoint"/><mxPoint x="70" y="600" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5_ll2" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="230" y="95" as="sourcePoint"/><mxPoint x="230" y="600" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5_ll3" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="95" as="sourcePoint"/><mxPoint x="430" y="600" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5_ll4" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="95" as="sourcePoint"/><mxPoint x="645" y="600" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5_ll5" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="860" y="95" as="sourcePoint"/><mxPoint x="860" y="600" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5_ll6" style="edgeStyle=none;dashed=1;endArrow=none;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="1020" y="105" as="sourcePoint"/><mxPoint x="1020" y="600" as="targetPoint"/></mxGeometry></mxCell>
+
+    <mxCell id="p5m1" value="1: Clic sur étudiant → Rendre ma décision" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="70" y="140" as="sourcePoint"/><mxPoint x="230" y="140" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m2" value="2: PATCH /api/encadrant/memoires/:etudiant_id/aptitude" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="230" y="165" as="sourcePoint"/><mxPoint x="430" y="165" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m3" value="3: verifierToken + autoriserRoles('encadrant')" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="195" as="sourcePoint"/><mxPoint x="645" y="195" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m4" value="4: deciderAptitude(req, res)" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="430" y="220" as="sourcePoint"/><mxPoint x="645" y="220" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m5" value="5: findOne({etudiant_id})" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="250" as="sourcePoint"/><mxPoint x="860" y="250" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m6" value="6: SELECT FROM memoires WHERE etudiant_id=?" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="860" y="275" as="sourcePoint"/><mxPoint x="1020" y="275" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m7" value="7: mémoire existant" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="1020" y="300" as="sourcePoint"/><mxPoint x="645" y="300" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m8" value="8: memoire.aptitude = 'apte'/'non_apte'&#xa;   memoire.commentaire = req.body.commentaire&#xa;   memoire.date_decision = NOW()" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="335" as="sourcePoint"/><mxPoint x="860" y="335" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m9" value="9: UPDATE memoires SET aptitude=?, date_decision=?" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="860" y="380" as="sourcePoint"/><mxPoint x="1020" y="380" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m10" value="10: { success:true, message: 'Décision enregistrée' }" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="420" as="sourcePoint"/><mxPoint x="230" y="420" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="p5m11" value="11: Toast ✓ 'Étudiant déclaré apte/non apte' + recharger" style="edgeStyle=elbowEdgeStyle;dashed=1;html=1;" edge="1" parent="page5"><mxGeometry relative="1" as="geometry"><mxPoint x="230" y="450" as="sourcePoint"/><mxPoint x="70" y="450" as="targetPoint"/></mxGeometry></mxCell>
+
+  </root>
+</mxGraphModel>

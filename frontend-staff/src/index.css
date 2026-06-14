@@ -116,3 +116,13 @@ input.error, select.error { border-color: var(--danger); }
 .search-wrap input { padding: 9px 14px 9px 36px; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: 0.875rem; width: 100%; outline: none; }
 .search-wrap input:focus { border-color: var(--primary); }
 .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; }
+
+/* ── Modal ── */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal { background: white; border-radius: 14px; padding: 28px; width: 100%; max-width: 500px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+.modal h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--gray-900); }
+.modal p { color: var(--gray-500); font-size: 0.875rem; margin-bottom: 16px; line-height: 1.6; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* ── input padding fix (sans icône) ── */
+.form-inline input[style], .form-inline select[style] { padding-left: 12px !important; }

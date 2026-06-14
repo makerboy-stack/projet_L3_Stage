@@ -1,4 +1,4 @@
-import { BarChart2, GraduationCap, UserCheck, Users, Settings, School, LogOut, Shield } from 'lucide-react'
+import { BarChart2, GraduationCap, UserCheck, Users, Settings, School, LogOut, Shield, BookOpen } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -10,6 +10,7 @@ const NAV = [
   { icon: Users,       label: 'Resp. Pédagogiques',    page: 'responsables' },
   { icon: Settings,    label: 'Tous les comptes',      page: 'tous' },
   { icon: School,      label: 'Établissements',        page: 'ecoles' },
+  { icon: BookOpen,    label: 'Depts & Filières',      page: 'structure' },
 ]
 
 export default function Sidebar({ activePage, setActivePage }) {

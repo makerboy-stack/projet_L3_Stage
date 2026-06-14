@@ -67,6 +67,11 @@ export default function Connexion() {
           </button>
         </form>
         <div className="auth-footer">Pas encore de compte ? <Link to="/inscription">S'inscrire</Link></div>
+        <div className="auth-footer" style={{ marginTop: 8 }}>
+          <Link to="/mot-de-passe-oublie" style={{ color: 'var(--gray-400)', fontSize: '0.82rem' }}>
+            Mot de passe oublié ?
+          </Link>
+        </div>
       </div>
     </div>
   )

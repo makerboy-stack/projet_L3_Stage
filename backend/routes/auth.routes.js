@@ -1,6 +1,6 @@
 const express = require('express')
 const router  = express.Router()
-const { inscrireEtudiant, inscrirePersonnel, connexion, deconnexion } = require('../controllers/auth.controller')
+const { inscrireEtudiant, inscrirePersonnel, connexion, deconnexion, demanderResetMotDePasse, reinitialiserMotDePasse } = require('../controllers/auth.controller')
 const { verifierToken } = require('../middlewares/auth.middleware')
 const { validerInscriptionEtudiant, validerInscriptionPersonnel, validerConnexion } = require('../validators/auth.validator')
 
@@ -8,6 +8,10 @@ router.post('/inscription/etudiant',  validerInscriptionEtudiant,  inscrireEtudi
 router.post('/inscription/personnel', validerInscriptionPersonnel, inscrirePersonnel)
 router.post('/connexion', validerConnexion, connexion)
 router.post('/deconnexion', verifierToken, deconnexion)
+
+// Mot de passe oublié
+router.post('/mot-de-passe-oublie',  demanderResetMotDePasse)
+router.post('/reinitialiser-mot-de-passe', reinitialiserMotDePasse)
 
 // GET /api/auth/profil — retourne le profil complet avec associations
 router.get('/profil', verifierToken, async (req, res) => {

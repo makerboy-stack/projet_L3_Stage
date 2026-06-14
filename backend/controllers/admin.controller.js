@@ -97,14 +97,32 @@ const basculerStatutCompte = async (req, res) => {
 // ── SUPPRIMER UN UTILISATEUR ───────────────────────────────────
 const supprimerUtilisateur = async (req, res) => {
   try {
+    const { sequelize, Assignation, Stage, Memoire, Message } = require('../models')
+
     const user = await User.findByPk(req.params.id)
     if (!user) return res.status(404).json({ success: false, message: 'Utilisateur introuvable.' })
     if (user.role === 'admin') return res.status(403).json({ success: false, message: 'Impossible de supprimer un admin.' })
+
+    const id = user.id
+
+    // Supprimer toutes les données liées dans le bon ordre (FK)
+    await Message.destroy({ where: { [Op.or]: [{ expediteur_id: id }, { destinataire_id: id }] } })
+    await Memoire.destroy({ where: { etudiant_id: id } })
+    await Stage.destroy({ where: { etudiant_id: id } })
+
+    // Pour les encadrants : annuler leurs assignations actives
+    if (user.role === 'encadrant') {
+      await Assignation.destroy({ where: { encadrant_id: id } })
+    }
+    // Pour les étudiants : supprimer leur assignation
+    await Assignation.destroy({ where: { etudiant_id: id } })
+
     await user.destroy()
-    return res.status(200).json({ success: true, message: 'Utilisateur supprimé.' })
+
+    return res.status(200).json({ success: true, message: 'Utilisateur supprimé avec succès.' })
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ success: false, message: 'Erreur serveur.' })
+    console.error('Erreur supprimerUtilisateur:', err)
+    return res.status(500).json({ success: false, message: 'Erreur serveur lors de la suppression.' })
   }
 }
 
