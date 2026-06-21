@@ -5,7 +5,7 @@ import {
   LogOut, Users, BookOpen, CheckCircle, XCircle,
   ClipboardList, Save, Search, UserPlus, UserMinus,
   RefreshCw, GraduationCap, AlertTriangle,
-  MessageSquare, Send, ExternalLink, ArrowLeft,
+  MessageSquare, Send, ExternalLink, ArrowLeft, Paperclip,
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import api from '../api/axios'
@@ -155,19 +155,20 @@ function ConversationEncadrant({ etudiant, onBack }) {
 }
 
 /* ══════════════════════════════════════════
-   ENCADRANT — Onglet Profil
+   ENCADRANT — Onglet Profil (complet)
 ══════════════════════════════════════════ */
 function EncProfil({ user, onSaved }) {
   const { mettreAJourProfil } = useAuth()
-  const [ecoles, setEcoles] = useState([])
-  const [depts,  setDepts]  = useState([])
-  const [form, setForm]     = useState({
+  const [ecoles, setEcoles]   = useState([])
+  const [depts,  setDepts]    = useState([])
+  const [form, setForm]       = useState({
     departement_id: user?.departement_id ?? '',
     grade:          user?.grade          ?? '',
     specialite:     user?.specialite     ?? '',
     telephone:      user?.telephone      ?? '',
   })
-  const [saving, setSaving] = useState(false)
+  const [saving, setSaving]   = useState(false)
+  const [editing, setEditing] = useState(false)
 
   useEffect(() => {
     api.get('/ecoles').then(r => setEcoles(r.data.data || []))
@@ -180,88 +181,114 @@ function EncProfil({ user, onSaved }) {
   const submit = async (e) => {
     e.preventDefault(); setSaving(true)
     try {
-      await mettreAJourProfil({
-        ...form,
-        departement_id: parseInt(form.departement_id) || null,
-      })
+      await mettreAJourProfil({ ...form, departement_id: parseInt(form.departement_id) || null })
       toast.success('Profil mis à jour !')
-      onSaved()
+      setEditing(false)
+      if (onSaved) onSaved()
     } catch { toast.error('Erreur lors de la sauvegarde.') }
     finally { setSaving(false) }
   }
 
+  const ecoleName = ecoles.find(e => e.id === user?.ecole_id)?.nom ?? '—'
+  const deptName  = depts.find(d => d.id === user?.departement_id)?.nom ?? '—'
+  const profilComplet = !!(user?.grade && user?.departement_id)
+
   return (
-    <div className="section-box">
-      <h3>Mes informations</h3>
+    <div>
+      {/* Alerte profil incomplet */}
+      {!profilComplet && (
+        <div style={{ background:'#fef9c3', border:'1px solid #fde047', borderRadius:12, padding:'14px 18px', marginBottom:16, display:'flex', alignItems:'center', gap:12, fontSize:'0.875rem', color:'#854d0e' }}>
+          ⚠️ Votre profil est incomplet.{' '}
+          <span style={{ color:'var(--primary)', fontWeight:600, cursor:'pointer' }} onClick={()=>setEditing(true)}>
+            Compléter maintenant →
+          </span>
+        </div>
+      )}
 
-      {/* Infos fixes */}
-      <Row label="Nom complet">{user?.prenom} {user?.nom}</Row>
-      <Row label="Email">{user?.email}</Row>
-      <Row label="École">
-        {user?.ecole_id
-          ? (ecoles.find(e => e.id === user.ecole_id)?.nom ?? `École #${user.ecole_id}`)
-          : '—'}
-      </Row>
-      <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--gray-200)' }}>
-        <h3 style={{ marginBottom: 16 }}>Compléter mon profil</h3>
-        <form onSubmit={submit} className="form-inline">
-          {/* Département */}
-          <div>
-            <label>Département de rattachement</label>
-            <select
-              value={form.departement_id}
-              onChange={e => setForm(f => ({ ...f, departement_id: e.target.value }))}
-            >
-              <option value="">Choisir un département...</option>
-              {depts.map(d => (
-                <option key={d.id} value={d.id}>{d.nom}</option>
-              ))}
-            </select>
-            {depts.length === 0 && user?.ecole_id && (
-              <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', marginTop: 4 }}>
-                Aucun département enregistré pour cette école.
-              </p>
-            )}
-          </div>
-
-          {/* Grade & Spécialité */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <div>
-              <label>Grade / Titre</label>
-              <input
-                value={form.grade}
-                onChange={e => setForm(f => ({ ...f, grade: e.target.value }))}
-                placeholder="Ex: Maître de conférences"
-              />
-            </div>
-            <div>
-              <label>Spécialité</label>
-              <input
-                value={form.specialite}
-                onChange={e => setForm(f => ({ ...f, specialite: e.target.value }))}
-                placeholder="Ex: Génie Logiciel"
-              />
-            </div>
-          </div>
-
-          {/* Téléphone */}
-          <div>
-            <label>Téléphone</label>
-            <input
-              value={form.telephone}
-              onChange={e => setForm(f => ({ ...f, telephone: e.target.value }))}
-              placeholder="77 000 00 00"
-            />
-          </div>
-
-          <div>
-            <button type="submit" className="btn-save" disabled={saving}>
-              <Save size={15} />
-              {saving ? 'Enregistrement...' : 'Enregistrer'}
+      {/* Carte profil */}
+      <div className="section-box">
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16 }}>
+          <h3 style={{ marginBottom:0 }}>Mes informations</h3>
+          {!editing && (
+            <button className="btn-save" style={{ padding:'6px 14px', fontSize:'0.82rem', borderRadius:7, background:'#6b7280' }} onClick={()=>setEditing(true)}>
+              <Save size={13} />Modifier
             </button>
+          )}
+        </div>
+
+        {/* Avatar + nom */}
+        <div style={{ display:'flex', alignItems:'center', gap:16, padding:'16px 0', borderBottom:'1px solid var(--gray-200)', marginBottom:16 }}>
+          <div style={{ width:64, height:64, borderRadius:'50%', background:'var(--primary-light)', color:'var(--primary)', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:'1.4rem', flexShrink:0 }}>
+            {user?.prenom?.[0]}{user?.nom?.[0]}
           </div>
-        </form>
+          <div>
+            <div style={{ fontWeight:700, fontSize:'1.1rem', color:'var(--gray-900)' }}>{user?.prenom} {user?.nom}</div>
+            <div style={{ fontSize:'0.82rem', color:'var(--gray-400)', marginTop:3 }}>
+              {user?.role === 'encadrant' ? 'Encadrant' : 'Responsable Pédagogique'}
+              {user?.grade && ` · ${user.grade}`}
+            </div>
+          </div>
+        </div>
+
+        {/* Infos fixes */}
+        <Row label="Email">{user?.email}</Row>
+        <Row label="École">{ecoleName}</Row>
+        <Row label="Département">{deptName}</Row>
+        <Row label="Grade">{user?.grade}</Row>
+        <Row label="Spécialité">{user?.specialite}</Row>
+        <Row label="Téléphone">{user?.telephone}</Row>
+
+        {/* Indicateur profil */}
+        <div style={{ marginTop:14, padding:'10px 14px', background: profilComplet ? 'var(--success-light)' : '#fef9c3', border:`1px solid ${profilComplet ? '#86efac' : '#fde047'}`, borderRadius:8, fontSize:'0.82rem', color: profilComplet ? '#15803d' : '#92400e' }}>
+          {profilComplet ? '✓ Profil complet' : '⚠️ Profil incomplet — renseignez département et grade'}
+        </div>
       </div>
+
+      {/* Formulaire d'édition */}
+      {editing && (
+        <div className="section-box" style={{ marginTop:16 }}>
+          <h3 style={{ marginBottom:16 }}>Modifier mon profil</h3>
+          <form onSubmit={submit} className="form-inline">
+            <div>
+              <label>Département de rattachement</label>
+              <select value={form.departement_id} onChange={e => setForm(f => ({ ...f, departement_id: e.target.value }))}>
+                <option value="">Choisir un département...</option>
+                {depts.map(d => <option key={d.id} value={d.id}>{d.nom}</option>)}
+              </select>
+              {depts.length === 0 && user?.ecole_id && (
+                <p style={{ fontSize:'0.75rem', color:'var(--gray-400)', marginTop:4 }}>
+                  Aucun département enregistré — contactez l'administrateur.
+                </p>
+              )}
+            </div>
+
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+              <div>
+                <label>Grade / Titre *</label>
+                <input value={form.grade} onChange={e => setForm(f => ({ ...f, grade: e.target.value }))} placeholder="Ex: Maître de conférences" />
+              </div>
+              <div>
+                <label>Spécialité</label>
+                <input value={form.specialite} onChange={e => setForm(f => ({ ...f, specialite: e.target.value }))} placeholder="Ex: Génie Logiciel" />
+              </div>
+            </div>
+
+            <div>
+              <label>Téléphone</label>
+              <input value={form.telephone} onChange={e => setForm(f => ({ ...f, telephone: e.target.value }))} placeholder="77 000 00 00" />
+            </div>
+
+            <div style={{ display:'flex', gap:10 }}>
+              <button type="button" onClick={()=>setEditing(false)} style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'9px 16px', background:'white', border:'1.5px solid var(--gray-200)', borderRadius:8, fontSize:'0.875rem', cursor:'pointer', color:'var(--gray-600)', fontFamily:'inherit' }}>
+                Annuler
+              </button>
+              <button type="submit" className="btn-save" disabled={saving}>
+                <Save size={15} />{saving ? 'Enregistrement...' : 'Enregistrer les modifications'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   )
 }
@@ -404,7 +431,7 @@ function EncMesEtudiants() {
                   <MessageSquare size={14} />
                 </button>
                 <button className="btn-save" style={{ padding:'7px 12px', fontSize:'0.8rem', borderRadius:7, background:'#7c3aed' }}
-                  onClick={() => { setAptForm({ aptitude: e.memoire?.aptitude ?? 'apte', motif_refus: e.memoire?.motif_refus??'', commentaire:'' }); setModal({ etudiant: e }) }}>
+                  onClick={() => { setAptForm({ aptitude: (e.memoire?.aptitude && e.memoire.aptitude !== 'en_attente') ? e.memoire.aptitude : 'apte', motif_refus: e.memoire?.motif_refus??'', commentaire:'' }); setModal({ etudiant: e }) }}>
                   <CheckCircle size={14} />Aptitude
                 </button>
                 <button className="btn btn-ghost btn-sm" title="Se désassigner" onClick={() => handleDesassigner(e.id)} style={{ color:'var(--danger)', borderColor:'var(--danger)' }}>
@@ -649,7 +676,7 @@ function EncMemoires() {
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16 }}>
             <h3 style={{ marginBottom:0 }}>Décision d'aptitude à soutenir</h3>
             {mem && mem.statut !== 'non_soumis' && !showForm && (
-              <button className="btn-save" style={{ padding:'7px 14px', fontSize:'0.82rem', borderRadius:7 }} onClick={() => { setAptForm({ aptitude: mem.aptitude ?? 'apte', motif_refus: mem.motif_refus ?? '', commentaire: mem.commentaire_encadrant ?? '' }); setShowForm(true) }}>
+              <button className="btn-save" style={{ padding:'7px 14px', fontSize:'0.82rem', borderRadius:7 }} onClick={() => { setAptForm({ aptitude: (mem.aptitude && mem.aptitude !== 'en_attente') ? mem.aptitude : 'apte', motif_refus: mem.motif_refus ?? '', commentaire: mem.commentaire_encadrant ?? '' }); setShowForm(true) }}>
                 <CheckCircle size={14} />{mem.aptitude !== 'en_attente' ? 'Modifier la décision' : 'Rendre ma décision'}
               </button>
             )}
@@ -781,6 +808,403 @@ function EncMemoires() {
 }
 
 /* ══════════════════════════════════════════
+   ENCADRANT — Onglet Chat (style WhatsApp)
+══════════════════════════════════════════ */
+function EncChat({ encadrantId }) {
+  const [etudiants,   setEtudiants]   = useState([])
+  const [selected,    setSelected]    = useState(null) // étudiant sélectionné
+  const [messages,    setMessages]    = useState([])
+  const [texte,       setTexte]       = useState('')
+  const [fichier,     setFichier]     = useState(null)
+  const [loading,     setLoading]     = useState(true)
+  const [loadingMsgs, setLoadingMsgs] = useState(false)
+  const [sending,     setSending]     = useState(false)
+  const [nonLus,      setNonLus]      = useState({})
+  const bottomRef = useRef(null)
+  const fileInputRef = useRef(null)
+  const intervalRef = useRef(null)
+
+  // Charger la liste des étudiants assignés
+  useEffect(() => {
+    api.get('/encadrant/mes-etudiants')
+      .then(r => setEtudiants(r.data.data || []))
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  // Charger les messages quand un étudiant est sélectionné
+  const chargerMessages = useCallback(async (etuId) => {
+    if (!etuId) return
+    setLoadingMsgs(true)
+    try {
+      const r = await api.get(`/messages/${etuId}`)
+      setMessages(r.data.data || [])
+    } catch { /* silencieux */ }
+    finally { setLoadingMsgs(false) }
+  }, [])
+
+  useEffect(() => {
+    if (selected) {
+      chargerMessages(selected.id)
+      // Rafraîchissement automatique toutes les 5 secondes
+      intervalRef.current = setInterval(() => chargerMessages(selected.id), 5000)
+    }
+    return () => clearInterval(intervalRef.current)
+  }, [selected, chargerMessages])
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  const envoyer = async (e) => {
+    e.preventDefault()
+    if ((!texte.trim() && !fichier) || !selected) return
+    setSending(true)
+    try {
+      const fd = new FormData()
+      if (texte.trim()) fd.append('contenu', texte.trim())
+      if (fichier) fd.append('fichier', fichier)
+      await api.post(`/messages/${selected.id}`, fd)
+      setTexte('')
+      setFichier(null)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+      chargerMessages(selected.id)
+    } catch { toast.error('Erreur.') }
+    finally { setSending(false) }
+  }
+
+  const formatHeure = (d) => {
+    const date = new Date(d)
+    const maintenant = new Date()
+    const hierDate = new Date(); hierDate.setDate(hierDate.getDate() - 1)
+    if (date.toDateString() === maintenant.toDateString())
+      return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+    if (date.toDateString() === hierDate.toDateString()) return 'Hier'
+    return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })
+  }
+
+  const formatDateSeparateur = (d) => {
+    const date = new Date(d)
+    const maintenant = new Date()
+    const hierDate = new Date(); hierDate.setDate(hierDate.getDate() - 1)
+    if (date.toDateString() === maintenant.toDateString()) return "Aujourd'hui"
+    if (date.toDateString() === hierDate.toDateString()) return 'Hier'
+    return date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+  }
+
+  // Grouper les messages par date
+  const groupesMessages = () => {
+    const groupes = []
+    let dateActuelle = null
+    messages.forEach(m => {
+      const dateMsg = new Date(m.created_at).toDateString()
+      if (dateMsg !== dateActuelle) {
+        dateActuelle = dateMsg
+        groupes.push({ type: 'separateur', date: m.created_at, key: 'sep_' + m.id })
+      }
+      groupes.push({ type: 'message', data: m, key: m.id })
+    })
+    return groupes
+  }
+
+  const getFileUrl = (url) => {
+    if (!url) return null
+    return url.startsWith('http') ? url : `http://localhost:5000${url}`
+  }
+
+  return (
+    <div style={{
+      display: 'flex',
+      height: 600,
+      background: 'var(--bg-card, white)',
+      border: '1px solid var(--gray-200)',
+      borderRadius: 14,
+      overflow: 'hidden',
+      boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+    }}>
+
+      {/* ── Colonne gauche : liste des étudiants ── */}
+      <div style={{
+        width: 280,
+        borderRight: '1px solid var(--gray-200)',
+        display: 'flex',
+        flexDirection: 'column',
+        background: 'var(--bg-card, white)',
+        flexShrink: 0,
+      }}>
+        {/* Header liste */}
+        <div style={{
+          padding: '16px 18px',
+          borderBottom: '1px solid var(--gray-100)',
+          background: 'linear-gradient(135deg, #4c1d95, #7c3aed)',
+        }}>
+          <div style={{ fontWeight: 700, color: 'white', fontSize: '1rem' }}>Messages</div>
+          <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)', marginTop: 2 }}>
+            {etudiants.length} étudiant(s)
+          </div>
+        </div>
+
+        {/* Liste étudiants */}
+        <div style={{ flex: 1, overflowY: 'auto' }}>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: 24 }}>
+              <div className="spinner" style={{ borderColor:'#7c3aed30', borderTopColor:'#7c3aed', width:24, height:24, margin:'0 auto' }}/>
+            </div>
+          ) : etudiants.length === 0 ? (
+            <div style={{ padding: 24, textAlign: 'center', color: 'var(--gray-400)', fontSize: '0.82rem' }}>
+              Aucun étudiant assigné
+            </div>
+          ) : etudiants.map(e => (
+            <div
+              key={e.id}
+              onClick={() => setSelected(e)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '12px 16px',
+                cursor: 'pointer',
+                background: selected?.id === e.id ? '#f5f3ff' : 'transparent',
+                borderLeft: selected?.id === e.id ? '3px solid #7c3aed' : '3px solid transparent',
+                transition: 'all 0.15s',
+                borderBottom: '1px solid var(--gray-50)',
+              }}
+              onMouseEnter={el => { if (selected?.id !== e.id) el.currentTarget.style.background = 'var(--gray-50)' }}
+              onMouseLeave={el => { if (selected?.id !== e.id) el.currentTarget.style.background = 'transparent' }}
+            >
+              {/* Avatar */}
+              <div style={{
+                width: 44, height: 44, borderRadius: '50%',
+                background: 'linear-gradient(135deg, #7c3aed, #a78bfa)',
+                color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontWeight: 700, fontSize: '0.9rem', flexShrink: 0,
+                boxShadow: '0 2px 6px rgba(124,58,237,0.3)',
+              }}>
+                {e.prenom?.[0]}{e.nom?.[0]}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--gray-900)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {e.prenom} {e.nom}
+                </div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--gray-400)', marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {e.filiereInfo?.nom ?? '—'} · {e.niveau ?? '—'}
+                </div>
+              </div>
+              {/* Pastille non-lus (future) */}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Colonne droite : conversation ── */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+
+        {!selected ? (
+          /* État vide */
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'var(--gray-400)', gap: 12 }}>
+            <div style={{ width: 72, height: 72, borderRadius: '50%', background: '#f5f3ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <MessageSquare size={32} color="#7c3aed" opacity={0.5} />
+            </div>
+            <div style={{ fontWeight: 600, color: 'var(--gray-600)', fontSize: '0.95rem' }}>
+              Sélectionnez un étudiant
+            </div>
+            <div style={{ fontSize: '0.82rem', textAlign: 'center', maxWidth: 220 }}>
+              Choisissez un étudiant dans la liste pour démarrer une conversation.
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Header conversation */}
+            <div style={{
+              padding: '12px 20px',
+              borderBottom: '1px solid var(--gray-100)',
+              display: 'flex', alignItems: 'center', gap: 12,
+              background: 'linear-gradient(135deg, #4c1d95, #7c3aed)',
+            }}>
+              <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.85rem' }}>
+                {selected.prenom?.[0]}{selected.nom?.[0]}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, color: 'white', fontSize: '0.9rem' }}>{selected.prenom} {selected.nom}</div>
+                <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.65)' }}>
+                  {selected.filiereInfo?.nom ?? '—'} · {selected.niveau ?? '—'}
+                  {selected.ecoleInfo && ` · ${selected.ecoleInfo.sigle ?? selected.ecoleInfo.nom}`}
+                </div>
+              </div>
+              <button
+                onClick={() => chargerMessages(selected.id)}
+                style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: 8, padding: '6px 10px', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.75rem' }}
+              >
+                <RefreshCw size={13} />
+              </button>
+            </div>
+
+            {/* Zone messages — fond style WhatsApp */}
+            <div style={{
+              flex: 1, overflowY: 'auto', padding: '16px 20px',
+              background: 'repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(124,58,237,0.015) 30px, rgba(124,58,237,0.015) 31px)',
+              backgroundSize: '100% 31px',
+              display: 'flex', flexDirection: 'column', gap: 4,
+            }}>
+              {loadingMsgs ? (
+                <div style={{ textAlign: 'center', margin: 'auto' }}>
+                  <div className="spinner" style={{ borderColor:'#7c3aed30', borderTopColor:'#7c3aed', width:28, height:28, margin:'0 auto' }}/>
+                </div>
+              ) : messages.length === 0 ? (
+                <div style={{ textAlign: 'center', margin: 'auto', color: 'var(--gray-400)' }}>
+                  <MessageSquare size={36} style={{ marginBottom: 8, opacity: 0.3 }}/>
+                  <p style={{ fontSize: '0.875rem' }}>Aucun message. Démarrez la conversation !</p>
+                </div>
+              ) : groupesMessages().map(item => {
+                if (item.type === 'separateur') {
+                  return (
+                    <div key={item.key} style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '12px 0 6px' }}>
+                      <div style={{ flex: 1, height: 1, background: 'var(--gray-200)' }}/>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--gray-400)', fontWeight: 600, background: 'white', padding: '2px 10px', borderRadius: 20, border: '1px solid var(--gray-200)' }}>
+                        {formatDateSeparateur(item.date)}
+                      </span>
+                      <div style={{ flex: 1, height: 1, background: 'var(--gray-200)' }}/>
+                    </div>
+                  )
+                }
+                const m = item.data
+                const estMoi = m.expediteur_id !== selected.id
+                return (
+                  <div key={item.key} style={{ display: 'flex', justifyContent: estMoi ? 'flex-end' : 'flex-start', marginBottom: 2 }}>
+                    {/* Avatar destinataire */}
+                    {!estMoi && (
+                      <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, #7c3aed, #a78bfa)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', fontWeight: 700, flexShrink: 0, alignSelf: 'flex-end', marginRight: 6 }}>
+                        {selected.prenom?.[0]}{selected.nom?.[0]}
+                      </div>
+                    )}
+                    <div style={{
+                      maxWidth: '68%',
+                      padding: '9px 13px',
+                      borderRadius: estMoi ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                      background: estMoi
+                        ? 'linear-gradient(135deg, #6d28d9, #7c3aed)'
+                        : 'white',
+                      color: estMoi ? 'white' : 'var(--gray-800)',
+                      fontSize: '0.875rem',
+                      lineHeight: 1.5,
+                      boxShadow: estMoi ? '0 2px 8px rgba(109,40,217,0.35)' : '0 1px 4px rgba(0,0,0,0.08)',
+                      border: estMoi ? 'none' : '1px solid var(--gray-100)',
+                    }}>
+                      {/* Fichier joint */}
+                      {m.fichier_url && (
+                        <div style={{ marginBottom: m.contenu ? 8 : 0 }}>
+                          <a
+                            href={getFileUrl(m.fichier_url)}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: 8,
+                              padding: '8px 12px',
+                              background: estMoi ? 'rgba(255,255,255,0.15)' : '#f5f3ff',
+                              borderRadius: 10,
+                              textDecoration: 'none',
+                              color: estMoi ? 'white' : '#6d28d9',
+                              fontSize: '0.78rem', fontWeight: 600,
+                              border: estMoi ? '1px solid rgba(255,255,255,0.2)' : '1px solid #ddd6fe',
+                            }}
+                          >
+                            <ExternalLink size={14} />
+                            {m.fichier_nom ?? 'Voir le fichier'}
+                          </a>
+                        </div>
+                      )}
+                      {/* Texte */}
+                      {m.contenu && <p style={{ margin: 0 }}>{m.contenu}</p>}
+                      {/* Heure */}
+                      <p style={{ fontSize: '0.65rem', opacity: 0.65, margin: '4px 0 0', textAlign: 'right' }}>
+                        {formatHeure(m.created_at)}
+                        {estMoi && <span style={{ marginLeft: 4 }}>✓✓</span>}
+                      </p>
+                    </div>
+                  </div>
+                )
+              })}
+              <div ref={bottomRef} />
+            </div>
+
+            {/* Aperçu fichier sélectionné */}
+            {fichier && (
+              <div style={{ padding: '8px 20px', background: '#f5f3ff', borderTop: '1px solid #ddd6fe', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ flex: 1, fontSize: '0.8rem', color: '#6d28d9', fontWeight: 500 }}>
+                  📎 {fichier.name} ({(fichier.size/1024/1024).toFixed(2)} Mo)
+                </div>
+                <button onClick={() => { setFichier(null); if (fileInputRef.current) fileInputRef.current.value = '' }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: '1.1rem', lineHeight: 1 }}>×</button>
+              </div>
+            )}
+
+            {/* Zone de saisie */}
+            <form onSubmit={envoyer} style={{ padding: '12px 16px', borderTop: '1px solid var(--gray-100)', display: 'flex', gap: 8, alignItems: 'flex-end', background: 'var(--bg-card, white)' }}>
+              {/* Bouton fichier */}
+              <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: '50%', background: '#f5f3ff', border: '1.5px solid #ddd6fe', cursor: 'pointer', flexShrink: 0, color: '#7c3aed', transition: 'all 0.2s' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#ede9fe'}
+                onMouseLeave={e => e.currentTarget.style.background = '#f5f3ff'}
+              >
+                <Paperclip size={18} />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif"
+                  style={{ display: 'none' }}
+                  onChange={e => setFichier(e.target.files[0] || null)}
+                />
+              </label>
+
+              {/* Input texte */}
+              <div style={{ flex: 1, position: 'relative' }}>
+                <input
+                  value={texte}
+                  onChange={e => setTexte(e.target.value)}
+                  placeholder="Écrire un message..."
+                  style={{
+                    width: '100%', padding: '10px 16px',
+                    border: '1.5px solid var(--gray-200)',
+                    borderRadius: 24, outline: 'none',
+                    fontSize: '0.875rem', fontFamily: 'inherit',
+                    background: 'var(--gray-50)',
+                    transition: 'border-color 0.2s',
+                  }}
+                  onFocus={e => e.target.style.borderColor = '#7c3aed'}
+                  onBlur={e => e.target.style.borderColor = 'var(--gray-200)'}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); envoyer(e) }
+                  }}
+                />
+              </div>
+
+              {/* Bouton envoyer */}
+              <button
+                type="submit"
+                disabled={sending || (!texte.trim() && !fichier)}
+                style={{
+                  width: 42, height: 42, borderRadius: '50%',
+                  background: (!texte.trim() && !fichier) ? 'var(--gray-200)' : 'linear-gradient(135deg, #6d28d9, #7c3aed)',
+                  border: 'none', cursor: (!texte.trim() && !fichier) ? 'not-allowed' : 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: 'white', flexShrink: 0,
+                  boxShadow: (!texte.trim() && !fichier) ? 'none' : '0 2px 8px rgba(109,40,217,0.4)',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {sending
+                  ? <div className="spinner" style={{ width: 16, height: 16, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white' }}/>
+                  : <Send size={18} />
+                }
+              </button>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/* ══════════════════════════════════════════
    DASHBOARD ENCADRANT
 ══════════════════════════════════════════ */
 function DashboardEncadrant({ user }) {
@@ -798,11 +1222,12 @@ function DashboardEncadrant({ user }) {
       {/* Tabs */}
       <div className="tab-bar">
         {[
-          { key: 'accueil',        label: '🏠 Accueil' },
-          { key: 'profil',         label: '👤 Mon profil' },
-          { key: 'mes-etudiants',  label: '👥 Mes étudiants' },
-          { key: 'memoires',       label: '📄 Mémoires' },
-          { key: 'tous-etudiants', label: '🔍 Trouver des étudiants' },
+          { key: 'accueil',        label: 'Accueil' },
+          { key: 'profil',         label: 'Mon profil' },
+          { key: 'mes-etudiants',  label: 'Mes étudiants' },
+          { key: 'memoires',       label: 'Mémoires' },
+          { key: 'chat',           label: 'Chat' },
+          { key: 'tous-etudiants', label: 'Trouver des étudiants' },
         ].map(t => (
           <button
             key={t.key}
@@ -859,6 +1284,7 @@ function DashboardEncadrant({ user }) {
       {onglet === 'profil'         && <EncProfil       user={user} onSaved={() => {}} />}
       {onglet === 'mes-etudiants'  && <EncMesEtudiants />}
       {onglet === 'memoires'       && <EncMemoires />}
+      {onglet === 'chat'           && <EncChat encadrantId={user?.id} />}
       {onglet === 'tous-etudiants' && <EncTousEtudiants />}
     </div>
   )
@@ -1128,9 +1554,9 @@ function DashboardRP({ user }) {
     <div>
       <div className="tab-bar">
         {[
-          { key: 'accueil',      label: '🏠 Accueil' },
-          { key: 'profil',       label: '👤 Mon profil' },
-          { key: 'assignations', label: '🔗 Assignations' },
+          { key: 'accueil',      label: 'Accueil' },
+          { key: 'profil',       label: 'Mon profil' },
+          { key: 'assignations', label: 'Assignations' },
         ].map(t => (
           <button key={t.key} className={`tab-btn ${onglet === t.key ? 'active' : ''}`} onClick={() => setOnglet(t.key)}>
             {t.label}
@@ -1164,7 +1590,7 @@ export default function Dashboard() {
   return (
     <div className="dashboard-page">
       <header className="topbar">
-        <span className="topbar-brand">🏛️ Portail Personnel</span>
+        <span className="topbar-brand">Portail Personnel</span>
         <div className="topbar-user">
           <div className="avatar">{initiales}</div>
           <div>
@@ -1180,7 +1606,7 @@ export default function Dashboard() {
       <main className="dashboard-content">
         {/* Carte de bienvenue */}
         <div className="welcome-card">
-          <h2>Bonjour, {user?.prenom} 👋</h2>
+          <h2>Bonjour, M. {user?.nom}</h2>
           <p>
             {user?.role === 'encadrant'
               ? 'Bienvenue sur votre espace de supervision des étudiants.'

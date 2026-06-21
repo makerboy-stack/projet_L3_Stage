@@ -1,0 +1,47 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1500" pageHeight="900" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/><mxCell id="1" parent="0"/>
+
+    <mxCell id="titre" value="Diagramme de Séquence : Soumettre un Mémoire (Upload fichier PDF/Word)" style="text;html=1;align=center;fontStyle=1;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="150" y="10" width="1100" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Têtes -->
+    <mxCell id="h1" value=":Étudiant" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="55" y="55" width="44" height="70" as="geometry"/></mxCell>
+    <mxCell id="h2" value=":Dashboard&#xa;Étudiant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1"><mxGeometry x="175" y="60" width="120" height="50" as="geometry"/></mxCell>
+    <mxCell id="h3" value=":API&#xa;(Express)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1"><mxGeometry x="370" y="60" width="110" height="50" as="geometry"/></mxCell>
+    <mxCell id="h4" value=":Middleware&#xa;JWT + Multer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1"><mxGeometry x="555" y="60" width="120" height="50" as="geometry"/></mxCell>
+    <mxCell id="h5" value=":StageController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1"><mxGeometry x="755" y="60" width="130" height="50" as="geometry"/></mxCell>
+    <mxCell id="h6" value=":Memoire&#xa;(Sequelize)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1"><mxGeometry x="965" y="60" width="120" height="50" as="geometry"/></mxCell>
+    <mxCell id="h7" value=":MySQL" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1"><mxGeometry x="1165" y="50" width="70" height="70" as="geometry"/></mxCell>
+
+    <!-- Lifelines -->
+    <mxCell id="l1" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="77" y="125" as="sourcePoint"/><mxPoint x="77" y="830" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l2" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="235" y="110" as="sourcePoint"/><mxPoint x="235" y="830" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l3" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="425" y="110" as="sourcePoint"/><mxPoint x="425" y="830" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l4" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="615" y="110" as="sourcePoint"/><mxPoint x="615" y="830" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l5" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="820" y="110" as="sourcePoint"/><mxPoint x="820" y="830" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l6" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1025" y="110" as="sourcePoint"/><mxPoint x="1025" y="830" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l7" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1200" y="120" as="sourcePoint"/><mxPoint x="1200" y="830" as="targetPoint"/></mxGeometry></mxCell>
+
+    <!-- Messages -->
+    <mxCell id="m1" value="1. Saisir titre + sélectionner fichier PDF/Word" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="77" y="165" as="sourcePoint"/><mxPoint x="235" y="165" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m2" value="2. PATCH /api/stage/mon-memoire (multipart/form-data : titre + fichier)" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="235" y="205" as="sourcePoint"/><mxPoint x="425" y="205" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m3" value="3. verifierToken(JWT) → décoder user.id" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="425" y="245" as="sourcePoint"/><mxPoint x="615" y="245" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m4" value="4. ✓ Token valide + multer → sauvegarder fichier dans /uploads/memoires/" style="html=1;endArrow=open;endFill=0;dashed=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="615" y="285" as="sourcePoint"/><mxPoint x="425" y="285" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m5" value="5. soumettreMemoire(req, res)" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="425" y="325" as="sourcePoint"/><mxPoint x="820" y="325" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m6" value="6. findOne({ etudiant_id }) — vérifier aptitude" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="820" y="365" as="sourcePoint"/><mxPoint x="1025" y="365" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m7" value="7. SELECT * FROM memoires WHERE etudiant_id = ?" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1025" y="400" as="sourcePoint"/><mxPoint x="1200" y="400" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m8" value="8. résultat (null ou mémoire existant)" style="html=1;endArrow=open;endFill=0;dashed=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1200" y="435" as="sourcePoint"/><mxPoint x="820" y="435" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m9" value="9. aptitude === 'en_attente' → OK&#xa;   fichier_url = '/uploads/memoires/etudiant_5_1720000.pdf'" style="html=1;endArrow=none;endFill=0;fontSize=11;fillColor=#fff2cc;strokeColor=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="840" y="475" as="sourcePoint"/><mxPoint x="1050" y="475" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m10" value="10. save() ou create() — statut = 'soumis'" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1025" y="515" as="sourcePoint"/><mxPoint x="1200" y="515" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m11" value="11. { success: true, data: memoire }" style="html=1;endArrow=open;endFill=0;dashed=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="820" y="560" as="sourcePoint"/><mxPoint x="235" y="560" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m12" value="12. Toast ✓ 'Mémoire soumis !' + recharger les données du profil" style="html=1;endArrow=open;endFill=0;dashed=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="235" y="600" as="sourcePoint"/><mxPoint x="77" y="600" as="targetPoint"/></mxGeometry></mxCell>
+
+    <!-- Note alt -->
+    <mxCell id="alt" value="[alt] aptitude ≠ 'en_attente' → 403 'Impossible de modifier : décision déjà rendue'" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=11;fillColor=#ffe6cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="600" y="640" width="500" height="40" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

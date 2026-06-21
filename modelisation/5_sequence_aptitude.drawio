@@ -1,0 +1,44 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1300" pageHeight="850" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/><mxCell id="1" parent="0"/>
+
+    <mxCell id="titre" value="Diagramme de Séquence : Déclarer l'Aptitude à Soutenir (Encadrant)" style="text;html=1;align=center;fontStyle=1;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="150" y="10" width="950" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Têtes -->
+    <mxCell id="h1" value=":Encadrant" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="55" y="55" width="44" height="70" as="geometry"/></mxCell>
+    <mxCell id="h2" value=":Dashboard&#xa;Staff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1"><mxGeometry x="180" y="60" width="120" height="50" as="geometry"/></mxCell>
+    <mxCell id="h3" value=":API&#xa;/encadrant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1"><mxGeometry x="375" y="60" width="120" height="50" as="geometry"/></mxCell>
+    <mxCell id="h4" value=":EncadrantController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1"><mxGeometry x="570" y="60" width="150" height="50" as="geometry"/></mxCell>
+    <mxCell id="h5" value=":Memoire&#xa;(Sequelize)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1"><mxGeometry x="800" y="60" width="120" height="50" as="geometry"/></mxCell>
+    <mxCell id="h6" value=":MySQL" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1"><mxGeometry x="1000" y="50" width="70" height="70" as="geometry"/></mxCell>
+
+    <!-- Lifelines -->
+    <mxCell id="l1" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="77" y="125" as="sourcePoint"/><mxPoint x="77" y="800" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l2" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="240" y="110" as="sourcePoint"/><mxPoint x="240" y="800" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l3" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="435" y="110" as="sourcePoint"/><mxPoint x="435" y="800" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l4" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="110" as="sourcePoint"/><mxPoint x="645" y="800" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l5" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="860" y="110" as="sourcePoint"/><mxPoint x="860" y="800" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="l6" style="edgeStyle=none;dashed=1;endArrow=none;html=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1035" y="120" as="sourcePoint"/><mxPoint x="1035" y="800" as="targetPoint"/></mxGeometry></mxCell>
+
+    <!-- Messages -->
+    <mxCell id="m1" value="1. Onglet Mémoires → Clic sur étudiant → Rendre ma décision" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="77" y="165" as="sourcePoint"/><mxPoint x="240" y="165" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m2" value="2. PATCH /api/encadrant/memoires/:etudiant_id/aptitude&#xa;   { aptitude, motif_refus, commentaire }" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="240" y="210" as="sourcePoint"/><mxPoint x="435" y="210" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m3" value="3. verifierToken(JWT) + autoriserRoles('encadrant')" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="435" y="255" as="sourcePoint"/><mxPoint x="645" y="255" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m4" value="4. deciderAptitude(req, res)" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="435" y="295" as="sourcePoint"/><mxPoint x="645" y="295" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m5" value="5. findOne({ etudiant_id })" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="335" as="sourcePoint"/><mxPoint x="860" y="335" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m6" value="6. SELECT * FROM memoires WHERE etudiant_id = ?" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="860" y="375" as="sourcePoint"/><mxPoint x="1035" y="375" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m7" value="7. mémoire existant" style="html=1;endArrow=open;endFill=0;dashed=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1035" y="415" as="sourcePoint"/><mxPoint x="645" y="415" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m8" value="8. memoire.aptitude = req.body.aptitude&#xa;   memoire.motif_refus = req.body.motif_refus&#xa;   memoire.commentaire_encadrant = req.body.commentaire&#xa;   memoire.date_decision = new Date()" style="html=1;endArrow=none;endFill=0;fontSize=11;fillColor=#f5f5f5;strokeColor=none;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="660" y="455" as="sourcePoint"/><mxPoint x="850" y="455" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m9" value="9. save() → UPDATE memoires SET aptitude=?, date_decision=? WHERE id=?" style="html=1;endArrow=open;endFill=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="860" y="530" as="sourcePoint"/><mxPoint x="1035" y="530" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m10" value="10. { success: true, data: memoire, aptitude: 'apte'/'non_apte' }" style="html=1;endArrow=open;endFill=0;dashed=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="645" y="580" as="sourcePoint"/><mxPoint x="240" y="580" as="targetPoint"/></mxGeometry></mxCell>
+    <mxCell id="m11" value="11. Toast ✓ 'Étudiant déclaré apte/non apte' + recharger liste" style="html=1;endArrow=open;endFill=0;dashed=1;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="240" y="620" as="sourcePoint"/><mxPoint x="77" y="620" as="targetPoint"/></mxGeometry></mxCell>
+
+    <!-- Note effets côté étudiant -->
+    <mxCell id="note" value="Note : L'étudiant verra la décision dans son onglet Mémoire.&#xa;Si aptitude ≠ 'en_attente', le formulaire de dépôt est verrouillé." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fontSize=11;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="200" y="680" width="600" height="50" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

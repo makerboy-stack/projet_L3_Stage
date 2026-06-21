@@ -1,0 +1,254 @@
+<mxfile host="Electron">
+  <diagram id="8nGxxwYUeW3pM52g2e-G" name="Page-1">
+    <mxGraphModel dx="753" dy="570" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="titre" parent="1" style="text;html=1;align=center;fontStyle=1;fontSize=16;strokeColor=none;fillColor=none;" value="Diagramme de Cas d&#39;Utilisation&#xa;Système de Gestion des Stages &amp; Mémoires" vertex="1">
+          <mxGeometry height="50" width="700" x="430" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="sys" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;fontSize=12;verticalAlign=top;spacingTop=6;strokeWidth=2;" value="&lt;b&gt;&lt;font style=&quot;font-size: 13px;&quot;&gt;Système de Gestion des Stages &amp;amp; Mémoires&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="1040" width="1150" x="200" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="enc" parent="1" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="Encadrant" vertex="1">
+          <mxGeometry height="90" width="50" x="50" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="rp" parent="1" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=12;" value="Responsable&#xa;Pédagogique" vertex="1">
+          <mxGeometry height="90" width="70" x="40" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="adm" parent="1" style="shape=mxgraph.uml.actor;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" value="Administrateur" vertex="1">
+          <mxGeometry height="90" width="50" x="1430" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_conn" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Se connecter" vertex="1">
+          <mxGeometry height="50" width="145" x="380" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_reset" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Réinitialiser&#xa;mot de passe" vertex="1">
+          <mxGeometry height="50" width="145" x="580" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_sinsc" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="S&#39;inscrire" vertex="1">
+          <mxGeometry height="50" width="120" x="240" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_profil" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Compléter profil&#xa;académique" vertex="1">
+          <mxGeometry height="50" width="155" x="240" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_declstage" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Déclarer&#xa;situation de stage" vertex="1">
+          <mxGeometry height="50" width="155" x="440" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_sousmemo" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Soumettre mémoire&#xa;(fichier / lien)" vertex="1">
+          <mxGeometry height="50" width="160" x="650" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_modmemo" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Modifier mémoire" vertex="1">
+          <mxGeometry height="50" width="150" x="240" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_delmemo" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Supprimer mémoire" vertex="1">
+          <mxGeometry height="50" width="155" x="440" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_consultapt" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Consulter aptitude&#xa;et commentaire" vertex="1">
+          <mxGeometry height="50" width="160" x="650" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_msgetu" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Envoyer message&#xa;à l&#39;encadrant" vertex="1">
+          <mxGeometry height="50" width="155" x="440" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_timeline" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Suivre progression&#xa;(timeline)" vertex="1">
+          <mxGeometry height="50" width="155" x="650" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_listetu" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Consulter liste&#xa;des étudiants" vertex="1">
+          <mxGeometry height="50" width="155" x="240" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_sassign" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="S&#39;assigner comme&#xa;encadrant" vertex="1">
+          <mxGeometry height="50" width="160" x="440" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_desass" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Se désassigner" vertex="1">
+          <mxGeometry height="50" width="145" x="660" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_consultmem" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Consulter mémoire&#xa;étudiant" vertex="1">
+          <mxGeometry height="50" width="155" x="240" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_declapt" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Déclarer aptitude&#xa;à soutenir" vertex="1">
+          <mxGeometry height="50" width="155" x="440" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_comment" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Rédiger commentaire" vertex="1">
+          <mxGeometry height="50" width="155" x="660" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_msgenc" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Envoyer message&#xa;à l&#39;étudiant" vertex="1">
+          <mxGeometry height="50" width="155" x="440" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_profilenc" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Compléter profil&#xa;(département, grade)" vertex="1">
+          <mxGeometry height="50" width="165" x="660" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_statsrp" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Consulter stats&#xa;globales" vertex="1">
+          <mxGeometry height="50" width="150" x="240" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_assignrp" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Assigner encadrant&#xa;à étudiant" vertex="1">
+          <mxGeometry height="50" width="155" x="440" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_modass" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Modifier assignation" vertex="1">
+          <mxGeometry height="50" width="155" x="655" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_supass" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Supprimer assignation" vertex="1">
+          <mxGeometry height="50" width="160" x="440" y="815" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_sansenc" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Voir étudiants sans&#xa;encadrant" vertex="1">
+          <mxGeometry height="50" width="155" x="655" y="815" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_geco" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Gérer établissements&#xa;(CRUD)" vertex="1">
+          <mxGeometry height="50" width="160" x="900" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_gdep" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Gérer départements&#xa;et filières" vertex="1">
+          <mxGeometry height="50" width="160" x="900" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_gcpt" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Gérer comptes&#xa;utilisateurs" vertex="1">
+          <mxGeometry height="50" width="155" x="900" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_activ" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Activer / Désactiver&#xa;compte" vertex="1">
+          <mxGeometry height="50" width="155" x="1100" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_suppcpt" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Supprimer compte" vertex="1">
+          <mxGeometry height="50" width="155" x="900" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_statsadm" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=11;" value="Consulter statistiques" vertex="1">
+          <mxGeometry height="50" width="160" x="1100" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="ae1" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_sinsc">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="230.5621502491448" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae2" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_conn">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="236.39372004147322" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae3" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_reset">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="239.37324926302995" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae4" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_profil">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="240.87816882978586" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae5" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_declstage">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="242.7404009371021" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae6" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_sousmemo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="243.4734589496377" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae7" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_modmemo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="249.70925031218212" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae8" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_delmemo">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="247.5483583882642" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae9" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_consultapt">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="246.72023585893533" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae10" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_msgetu">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="252.34394674347936" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ae11" edge="1" parent="1" style="edgeStyle=none;html=1;" target="uc_timeline">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="249.9806044789766" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="inc1" edge="1" parent="1" source="uc_modmemo" style="edgeStyle=none;dashed=1;html=1;fontSize=10;" target="uc_sousmemo" value="&lt;&lt;extend&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="inc2" edge="1" parent="1" source="uc_declapt" style="edgeStyle=none;dashed=1;html=1;fontSize=10;" target="uc_comment" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="inc3" edge="1" parent="1" source="uc_gcpt" style="edgeStyle=none;dashed=1;html=1;fontSize=10;" target="uc_activ" value="&lt;&lt;include&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="inc4" edge="1" parent="1" source="uc_gdep" style="edgeStyle=none;dashed=1;html=1;fontSize=10;" target="uc_geco" value="&lt;&lt;extend&gt;&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc1" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_conn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc2" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_reset">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc3" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_listetu">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc4" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_sassign">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc5" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_desass">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc6" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_consultmem">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc7" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_declapt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc8" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_msgenc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aenc9" edge="1" parent="1" source="enc" style="edgeStyle=none;html=1;" target="uc_profilenc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arp1" edge="1" parent="1" source="rp" style="edgeStyle=none;html=1;" target="uc_conn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arp2" edge="1" parent="1" source="rp" style="edgeStyle=none;html=1;" target="uc_reset">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arp3" edge="1" parent="1" source="rp" style="edgeStyle=none;html=1;" target="uc_statsrp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arp4" edge="1" parent="1" source="rp" style="edgeStyle=none;html=1;" target="uc_assignrp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arp5" edge="1" parent="1" source="rp" style="edgeStyle=none;html=1;" target="uc_modass">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arp6" edge="1" parent="1" source="rp" style="edgeStyle=none;html=1;" target="uc_supass">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arp7" edge="1" parent="1" source="rp" style="edgeStyle=none;html=1;" target="uc_sansenc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aadm1" edge="1" parent="1" source="adm" style="edgeStyle=none;html=1;" target="uc_conn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aadm2" edge="1" parent="1" source="adm" style="edgeStyle=none;html=1;" target="uc_reset">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aadm3" edge="1" parent="1" source="adm" style="edgeStyle=none;html=1;" target="uc_geco">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aadm4" edge="1" parent="1" source="adm" style="edgeStyle=none;html=1;" target="uc_gdep">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aadm5" edge="1" parent="1" source="adm" style="edgeStyle=none;html=1;" target="uc_gcpt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aadm6" edge="1" parent="1" source="adm" style="edgeStyle=none;html=1;" target="uc_suppcpt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aadm7" edge="1" parent="1" source="adm" style="edgeStyle=none;html=1;" target="uc_statsadm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bghe49vojoJiRse661yl-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Actor" vertex="1">
+          <mxGeometry height="60" width="30" x="390" y="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

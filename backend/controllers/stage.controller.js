@@ -37,27 +37,22 @@ const monMemoire = async (req, res) => {
   }
 }
 
-// PATCH /api/stage/mon-memoire — soumettre/modifier (fichier uploadé OU lien)
-// Bloqué si aptitude déjà décidée
+// PATCH /api/stage/mon-memoire — soumettre/modifier (titre + description + fichier_url ou lien)
 const soumettreMemoire = async (req, res) => {
   try {
-    const { titre, lien } = req.body   // lien = URL externe optionnelle
-    const fichierUploade  = req.file   // fichier multer si présent
+    const { titre, description, fichier_url, type_depot } = req.body
+    const fichierUploade = req.file
 
     if (!titre) {
-      // Nettoyer le fichier uploadé si le titre manque
       if (fichierUploade) fs.unlinkSync(fichierUploade.path)
       return res.status(400).json({ success: false, message: 'Le titre est obligatoire.' })
     }
-
-    // Vérifier qu'on a au moins un fichier ou un lien
-    if (!fichierUploade && !lien) {
+    if (!fichierUploade && !fichier_url) {
       return res.status(400).json({ success: false, message: 'Veuillez fournir un fichier ou un lien.' })
     }
 
     let m = await Memoire.findOne({ where: { etudiant_id: req.user.id } })
 
-    // Bloquer si aptitude déjà décidée
     if (m && m.aptitude !== 'en_attente') {
       if (fichierUploade) fs.unlinkSync(fichierUploade.path)
       return res.status(403).json({
@@ -66,29 +61,26 @@ const soumettreMemoire = async (req, res) => {
       })
     }
 
-    // Si un nouveau fichier est uploadé et qu'il y avait déjà un ancien fichier, supprimer l'ancien
+    // Supprimer l'ancien fichier si remplacement
     if (fichierUploade && m && m.type_depot === 'fichier' && m.fichier_url) {
       const ancienChemin = path.join(__dirname, '..', m.fichier_url.replace('/uploads/', 'uploads/'))
-      if (fs.existsSync(ancienChemin)) {
-        try { fs.unlinkSync(ancienChemin) } catch { /* silencieux */ }
-      }
+      if (fs.existsSync(ancienChemin)) try { fs.unlinkSync(ancienChemin) } catch {}
     }
 
-    // Construire les valeurs selon le mode de dépôt
-    let fichier_url, type_depot
+    let url_finale, type_final
     if (fichierUploade) {
-      // URL relative accessible via /uploads/memoires/nomfichier
-      fichier_url = `/uploads/memoires/${fichierUploade.filename}`
-      type_depot  = 'fichier'
+      url_finale = `/uploads/memoires/${fichierUploade.filename}`
+      type_final = 'fichier'
     } else {
-      fichier_url = lien
-      type_depot  = 'lien'
+      url_finale = fichier_url
+      type_final = type_depot || 'lien'
     }
 
     const payload = {
       titre,
-      fichier_url,
-      type_depot,
+      description: description || null,
+      fichier_url: url_finale,
+      type_depot:  type_final,
       statut:     'soumis',
       date_depot: new Date(),
     }
@@ -98,8 +90,7 @@ const soumettreMemoire = async (req, res) => {
 
     return res.status(200).json({ success: true, message: 'Mémoire soumis.', data: m })
   } catch (err) {
-    // Nettoyer le fichier en cas d'erreur
-    if (req.file) try { fs.unlinkSync(req.file.path) } catch { /* silencieux */ }
+    if (req.file) try { fs.unlinkSync(req.file.path) } catch {}
     console.error(err)
     return res.status(500).json({ success: false, message: 'Erreur serveur.' })
   }

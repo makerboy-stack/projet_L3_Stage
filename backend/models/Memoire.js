@@ -5,6 +5,7 @@ const Memoire = sequelize.define('Memoire', {
   id:                    { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   etudiant_id:           { type: DataTypes.INTEGER, allowNull: false },
   titre:                 { type: DataTypes.STRING(300), allowNull: true },
+  description:           { type: DataTypes.TEXT, allowNull: true },  // description du sujet
   fichier_url:           { type: DataTypes.STRING(1000), allowNull: true }, // URL ou lien externe
   type_depot:            { type: DataTypes.ENUM('fichier','lien'), allowNull: true }, // 'fichier' ou 'lien'
   date_depot:            { type: DataTypes.DATE, allowNull: true },

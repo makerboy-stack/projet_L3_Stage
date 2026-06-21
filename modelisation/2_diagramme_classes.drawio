@@ -1,0 +1,115 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/><mxCell id="1" parent="0"/>
+
+    <mxCell id="titre" value="Diagramme de Classes — Gestion des Stages &amp; Mémoires" style="text;html=1;align=center;fontStyle=1;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+      <mxGeometry x="400" y="10" width="800" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ User ════ -->
+    <mxCell id="user" value="User" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="20" y="60" width="280" height="400" as="geometry"/>
+    </mxCell>
+    <mxCell id="user_a" value="- id : INT {PK}&#xa;- nom : STRING(100)&#xa;- prenom : STRING(100)&#xa;- email : STRING(150) {UNIQUE}&#xa;- mot_de_passe : STRING(255)&#xa;- role : ENUM&#xa;  (etudiant | encadrant |&#xa;   responsable_pedagogique | admin)&#xa;- ecole_id : INT {FK}&#xa;- departement_id : INT {FK}&#xa;- filiere_id : INT {FK}&#xa;- numero_etudiant : STRING(20)&#xa;- niveau : STRING(10)&#xa;- annee_universitaire : STRING(20)&#xa;- grade : STRING(100)&#xa;- specialite : STRING(150)&#xa;- telephone : STRING(20)&#xa;- profil_complet : BOOLEAN&#xa;- is_active : BOOLEAN&#xa;- reset_code : STRING(6)&#xa;- reset_code_expiry : DATETIME" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="user">
+      <mxGeometry y="30" width="280" height="300" as="geometry"/>
+    </mxCell>
+    <mxCell id="user_m" value="+ verifierMotDePasse(mdp) : BOOLEAN&#xa;+ toSafeJSON() : Object" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="user">
+      <mxGeometry y="330" width="280" height="70" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ Ecole ════ -->
+    <mxCell id="ecole" value="Ecole" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="360" y="60" width="230" height="230" as="geometry"/>
+    </mxCell>
+    <mxCell id="ecole_a" value="- id : INT {PK}&#xa;- nom : STRING(200) {UNIQUE}&#xa;- sigle : STRING(20)&#xa;- ville : STRING(100)&#xa;- pays : STRING(100)&#xa;- description : TEXT&#xa;- is_active : BOOLEAN&#xa;- created_at : DATETIME&#xa;- updated_at : DATETIME" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="ecole">
+      <mxGeometry y="30" width="230" height="200" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ Departement ════ -->
+    <mxCell id="dept" value="Departement" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="650" y="60" width="220" height="170" as="geometry"/>
+    </mxCell>
+    <mxCell id="dept_a" value="- id : INT {PK}&#xa;- ecole_id : INT {FK}&#xa;- nom : STRING(150)&#xa;- code : STRING(20)&#xa;- is_active : BOOLEAN&#xa;- created_at : DATETIME" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="dept">
+      <mxGeometry y="30" width="220" height="140" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ Filiere ════ -->
+    <mxCell id="fil" value="Filiere" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="930" y="60" width="220" height="180" as="geometry"/>
+    </mxCell>
+    <mxCell id="fil_a" value="- id : INT {PK}&#xa;- departement_id : INT {FK}&#xa;- nom : STRING(150)&#xa;- code : STRING(20)&#xa;- niveaux : TEXT (JSON)&#xa;- is_active : BOOLEAN&#xa;- created_at : DATETIME" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="fil">
+      <mxGeometry y="30" width="220" height="150" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ Assignation ════ -->
+    <mxCell id="assign" value="Assignation" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="20" y="530" width="240" height="210" as="geometry"/>
+    </mxCell>
+    <mxCell id="assign_a" value="- id : INT {PK}&#xa;- etudiant_id : INT {FK→User}&#xa;- encadrant_id : INT {FK→User}&#xa;- rp_id : INT {FK→User}&#xa;- annee_universitaire : STRING&#xa;- statut : ENUM&#xa;  (active | terminee | annulee)&#xa;- note_rp : TEXT" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="assign">
+      <mxGeometry y="30" width="240" height="180" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ Stage ════ -->
+    <mxCell id="stage" value="Stage" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="320" y="530" width="250" height="250" as="geometry"/>
+    </mxCell>
+    <mxCell id="stage_a" value="- id : INT {PK}&#xa;- etudiant_id : INT {FK→User}&#xa;- a_stage : BOOLEAN&#xa;- entreprise : STRING(200)&#xa;- secteur : STRING(100)&#xa;- sujet : TEXT&#xa;- lieu : STRING(200)&#xa;- date_debut : DATE&#xa;- date_fin : DATE&#xa;- statut : ENUM (en_cours | termine)&#xa;- encadrant_entreprise : STRING" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="stage">
+      <mxGeometry y="30" width="250" height="220" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ Memoire ════ -->
+    <mxCell id="memo" value="Memoire" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="630" y="530" width="270" height="270" as="geometry"/>
+    </mxCell>
+    <mxCell id="memo_a" value="- id : INT {PK}&#xa;- etudiant_id : INT {FK→User}&#xa;- titre : STRING(300)&#xa;- fichier_url : STRING(1000)&#xa;- type_depot : ENUM (fichier | lien)&#xa;- date_depot : DATETIME&#xa;- statut : ENUM&#xa;  (non_soumis | soumis | valide | rejete)&#xa;- commentaire_encadrant : TEXT&#xa;- aptitude : ENUM&#xa;  (en_attente | apte | non_apte)&#xa;- motif_refus : TEXT&#xa;- date_decision : DATETIME" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="memo">
+      <mxGeometry y="30" width="270" height="240" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ Message ════ -->
+    <mxCell id="msg" value="Message" style="swimlane;fontStyle=1;align=center;startSize=30;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="970" y="530" width="230" height="180" as="geometry"/>
+    </mxCell>
+    <mxCell id="msg_a" value="- id : INT {PK}&#xa;- expediteur_id : INT {FK→User}&#xa;- destinataire_id : INT {FK→User}&#xa;- contenu : TEXT&#xa;- lu : BOOLEAN&#xa;- created_at : DATETIME" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;rotatable=0;fontSize=11;" vertex="1" parent="msg">
+      <mxGeometry y="30" width="230" height="150" as="geometry"/>
+    </mxCell>
+
+    <!-- ════ RELATIONS ════ -->
+    <!-- User → Ecole : 0..* --- 0..1 -->
+    <mxCell id="r_ue" value="appartient à&#xa;0..* ————— 0..1" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;endArrow=open;endFill=0;" edge="1" source="user" target="ecole" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User → Dept -->
+    <mxCell id="r_ud" value="0..* ——— 0..1" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;endArrow=open;endFill=0;" edge="1" source="user" target="dept" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User → Fil -->
+    <mxCell id="r_uf" value="0..* ——— 0..1" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;endArrow=open;endFill=0;" edge="1" source="user" target="fil" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Ecole → Dept : 1 -< * -->
+    <mxCell id="r_ed" value="1" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;" edge="1" source="ecole" target="dept" parent="1">
+      <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="590" y="145"/><mxPoint x="760" y="145"/></Array></mxGeometry>
+    </mxCell>
+    <!-- Dept → Filiere : 1 -< * -->
+    <mxCell id="r_df" value="1" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=11;fontStyle=1;endArrow=ERmany;endFill=0;startArrow=ERmandOne;startFill=0;" edge="1" source="dept" target="fil" parent="1">
+      <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="870" y="145"/><mxPoint x="1040" y="145"/></Array></mxGeometry>
+    </mxCell>
+    <!-- User → Assignation -->
+    <mxCell id="r_ua" value="(etudiant) 1 ——— 0..1" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;endArrow=open;endFill=0;" edge="1" source="user" target="assign" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User → Stage -->
+    <mxCell id="r_us" value="(etudiant) 1 ——— 0..1" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;endArrow=open;endFill=0;" edge="1" source="user" target="stage" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User → Memoire -->
+    <mxCell id="r_um" value="(etudiant) 1 ——— 0..1" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;endArrow=open;endFill=0;" edge="1" source="user" target="memo" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- User → Message -->
+    <mxCell id="r_umsg" value="(expediteur) 1 ——— 0..*" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;endArrow=open;endFill=0;" edge="1" source="user" target="msg" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

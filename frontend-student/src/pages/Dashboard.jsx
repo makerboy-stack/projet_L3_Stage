@@ -435,8 +435,8 @@ function OngletMemoire({ profil, onSaved }) {
               <label>Mode de dépôt *</label>
               <div style={{ display:'flex', gap:16, marginTop:6, flexWrap:'wrap' }}>
                 {[
-                  { val:'fichier', label:'📄 Uploader un fichier (PDF ou Word)' },
-                  { val:'lien',    label:'🔗 Lien externe (Google Drive, OneDrive…)' },
+                  { val:'fichier', label:'Uploader un fichier (PDF ou Word)' },
+                  { val:'lien',    label:'Lien externe (Google Drive, OneDrive...)' },
                 ].map(opt => (
                   <label key={opt.val} style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontWeight:'normal', color:'var(--gray-700)', fontSize:'0.875rem' }}>
                     <input
@@ -664,11 +664,11 @@ export default function Dashboard() {
   ]
 
   const TABS = [
-    { key:'accueil', label:'🏠 Accueil' },
-    { key:'profil',  label:'👤 Profil' },
-    { key:'stage',   label:'🏢 Stage' },
-    { key:'memoire', label:'📄 Mémoire' },
-    { key:'messages',label:'💬 Messages' },
+    { key:'accueil', label:'Accueil' },
+    { key:'profil',  label:'Mon profil' },
+    { key:'stage',   label:'Stage' },
+    { key:'memoire', label:'Mémoire' },
+    { key:'messages',label:'Messages' },
   ]
 
   return (
@@ -694,7 +694,7 @@ export default function Dashboard() {
         )}
 
         <div className="welcome-card">
-          <h2>Bonjour, {user?.prenom} 👋</h2>
+          <h2>Bonjour, M. {user?.nom}</h2>
           <p>
             {profil?.filiereInfo
               ? `${profil.filiereInfo.nom} · ${profil.niveau??''} · ${profil.annee_universitaire??''}`

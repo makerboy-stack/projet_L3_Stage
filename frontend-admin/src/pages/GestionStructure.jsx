@@ -272,8 +272,8 @@ export default function GestionStructure() {
             style={{ display:'flex', alignItems:'center', gap:12, padding:'16px 20px', cursor:'pointer', borderBottom: ecoleOuverte===ecole.id ? '1px solid var(--gray-200)' : 'none' }}
             onClick={() => setEcoleOuverte(o => o===ecole.id ? null : ecole.id)}
           >
-            <div style={{ width:40, height:40, background:'linear-gradient(135deg,#b45309,#fbbf24)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontWeight:700, fontSize:'0.85rem', flexShrink:0 }}>
-              {ecole.sigle?.[0] ?? '🏫'}
+            <div style={{ width:40, height:40, background:'linear-gradient(135deg,#1e40af,#3b82f6)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontWeight:700, fontSize:'0.85rem', flexShrink:0 }}>
+              {ecole.sigle?.[0] ?? 'E'}
             </div>
             <div style={{ flex:1 }}>
               <div style={{ fontWeight:700, fontSize:'1rem', color:'var(--gray-900)' }}>{ecole.nom}</div>
